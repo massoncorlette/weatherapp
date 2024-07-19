@@ -1,6 +1,7 @@
 import './style.css';
-import {test} from './main.js';
+import {retrieveWeatherData} from './main.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-  test();
+  const test = 'indiana';
+  retrieveWeatherData(test);
 });
