@@ -1,6 +1,6 @@
 import './style.css';
-import { queryForData} from './main.js';
+import { queryForData, retrieveWeatherData} from './main.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-  queryForData();
+  retrieveWeatherData();
 });
