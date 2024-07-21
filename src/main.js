@@ -1,15 +1,9 @@
 
-export function retrieveWeatherData(location) {
-  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/2024-7-19?key=F9HSLGSNS2LUJYXZA84KV9H2M`;
+export async function retrieveWeatherData() {
 
-  fetch(url, { mode: 'cors' })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data); 
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });  
+  const data = await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/indiana/2024-7-19?key=F9HSLGSNS2LUJYXZA84KV9H2M', { mode: 'cors' })
+  const weatherData = await data.json();
+  console.log(weatherData);
 };
 
 export function queryForData() {
@@ -17,7 +11,7 @@ export function queryForData() {
 
   submitBtn.addEventListener('click', () => {
     let location = document.querySelector('#locationInput').value;
-    retrieveWeatherData(location);
+    retrieveWeatherData();
   });
 };
 
