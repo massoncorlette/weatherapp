@@ -1,9 +1,12 @@
 
 export async function retrieveWeatherData() {
-
-  const data = await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/indiana/2024-7-19?key=F9HSLGSNS2LUJYXZA84KV9H2M', { mode: 'cors' })
-  const weatherData = await data.json();
-  console.log(weatherData);
+  try {
+    const data = await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/indiana/2024-7-19?key=F9HSLGSNS2LUJYXZA84KV9H2M', { mode: 'cors' })
+    const weatherData = await data.json();
+    console.log(weatherData);
+  } catch (error) {
+    console.log('error');
+  }
 };
 
 export function queryForData() {
