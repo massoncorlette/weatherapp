@@ -1,7 +1,9 @@
 
-export async function retrieveWeatherData() {
+export async function retrieveWeatherData(location) {
   try {
-    const data = await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/indiana/2024-7-19?key=F9HSLGSNS2LUJYXZA84KV9H2M', { mode: 'cors' })
+    const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/2024-7-19?key=F9HSLGSNS2LUJYXZA84KV9H2M`;
+
+    const data = await fetch(url, { mode: 'cors' })
     const weatherData = await data.json();
     console.log(weatherData);
   } catch (error) {
@@ -9,14 +11,13 @@ export async function retrieveWeatherData() {
   }
 };
 
-export function queryForData() {
-  let submitBtn = document.querySelector('#submit');
 
-  submitBtn.addEventListener('click', () => {
-    let location = document.querySelector('#locationInput').value;
-    retrieveWeatherData();
-  });
-};
+let submitBtn = document.querySelector('#submit');
+
+submitBtn.addEventListener('click', () => {
+  let location = document.querySelector('#locationInput').value;
+  retrieveWeatherData(location);
+});
 
 function displayWeatherData(data) {
   const container = document.createElement('div');
