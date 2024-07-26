@@ -5,8 +5,9 @@ let location = null;
 export function initializeApp() {
   let submitBtn = document.querySelector('#submitbtn');
   
-  submitBtn.addEventListener('click', () => {
+  submitBtn.addEventListener('click', (event) => {
     location = document.querySelector('#locationInput').value;
+    event.preventDefault();
     queryForData(location);
   }); 
 }
@@ -26,9 +27,6 @@ async function queryForData(selectedLocation) {
 async function retrieveWeatherData(selectedLocation) {
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/2024-7-27?key=F9HSLGSNS2LUJYXZA84KV9H2M`;
   
-  const forum = document.querySelector('#weatherForum');
-  forum.action = url;
-  forum.setAttribute('method', 'GET');
   try {
     const data = await fetch(url, { mode: 'cors' });
     if (!data.ok) {
