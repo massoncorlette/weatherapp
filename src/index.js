@@ -1,5 +1,5 @@
 import './style.css';
-import { initializeApp} from './main.js';
+import { initializeApp, retrieveWeatherData} from './main.js';
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeApp();

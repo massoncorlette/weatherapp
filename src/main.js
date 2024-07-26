@@ -16,6 +16,7 @@ async function queryForData(selectedLocation) {
   try {
     const weatherData = await retrieveWeatherData(selectedLocation);
     console.log(weatherData);
+    displayWeatherData(weatherData);
   } catch(error) {
     console.log(error);
   }
@@ -23,10 +24,16 @@ async function queryForData(selectedLocation) {
 
 // return Promise object
 async function retrieveWeatherData(selectedLocation) {
+  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/2024-7-27?key=F9HSLGSNS2LUJYXZA84KV9H2M`;
+  
+  const forum = document.querySelector('#weatherForum');
+  forum.action = url;
+  forum.setAttribute('method', 'GET');
   try {
-    const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/2024-7-19?key=F9HSLGSNS2LUJYXZA84KV9H2M`;
-
     const data = await fetch(url, { mode: 'cors' });
+    if (!data.ok) {
+      throw new Error(`Response status: ${data.status}`);
+    }
 
     const weatherData = await data.json();
     console.log(weatherData);
