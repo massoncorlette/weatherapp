@@ -1,4 +1,6 @@
 
+//Focus on DOM elements and UI last!
+
 let location = null;
 
 // entry function from index
@@ -12,7 +14,7 @@ export function initializeApp() {
   }); 
 }
 
-//dealing with Promise object
+// dealing with Promise object
 async function queryForData(selectedLocation) { 
   try {
     const weatherData = await retrieveWeatherData(selectedLocation);
@@ -32,7 +34,6 @@ async function retrieveWeatherData(selectedLocation) {
     if (!data.ok) {
       throw new Error(`Response status: ${data.status}`);
     }
-
     const weatherData = await data.json();
     console.log(weatherData);
     return weatherData;
@@ -47,7 +48,7 @@ function displayWeatherData(data) {
   container.classList.add('weather-data-container');
 
   let tempElement = document.createElement('p');
-  tempElement.innerHTML = `Temperature: ${data.days[0]} °F`;
+  tempElement.textContent = `Temperature: ${data.days[0].temp} °F`;
   container.appendChild(tempElement);
 
   document.body.appendChild(container);
