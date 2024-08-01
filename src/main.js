@@ -26,9 +26,19 @@ async function queryForData(selectedLocation) {
   }
 };
 
+function getCurrentDate() {
+  const currentDate = new Date();
+
+  const formattedDate = format(currentDate, 'MM-dd');
+
+  return formattedDate;
+};
+
 // return Promise object
 async function retrieveWeatherData(selectedLocation) {
-  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/2024-7-27?key=F9HSLGSNS2LUJYXZA84KV9H2M`;
+  const date = getCurrentDate();
+  console.log(date);
+  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/next7days?key=F9HSLGSNS2LUJYXZA84KV9H2M`;
   
   try {
     const data = await fetch(url, { mode: 'cors' });
@@ -42,14 +52,6 @@ async function retrieveWeatherData(selectedLocation) {
     console.log(error);
   }
 };
-
-function getFormatCurrentDate() {
-  const currentDate = new Date();
-
-  const formattedDate = format(currentDate, 'MM-dd');
-
-  return formattedDate;
-}
 
 // displaying data
 function displayWeatherData(data) {
