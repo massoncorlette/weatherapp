@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 
 //Focus on DOM elements and UI last!
 
@@ -42,14 +43,46 @@ async function retrieveWeatherData(selectedLocation) {
   }
 };
 
+function getFormatCurrentDate() {
+  const currentDate = new Date();
+
+  const formattedDate = format(currentDate, 'MM-dd');
+
+  return formattedDate;
+}
+
 // displaying data
 function displayWeatherData(data) {
   const container = document.createElement('div');
   container.classList.add('weather-data-container');
 
-  let tempElement = document.createElement('p');
-  tempElement.textContent = `Temperature: ${data.days[0].temp} °F`;
-  container.appendChild(tempElement);
+  let description = document.createElement('p');
+  description.textContent = displayDayOfDescription(data);
+  displayDayOfForecast(data);
+  console.log(dayForecast);
+
+  container.appendChild(description);
 
   document.body.appendChild(container);
+};
+
+let dayForecast = [];
+function displayDayOfForecast(data) {
+  dayForecast = [];
+  for (let i = 0; i < data.days.length; i++) {
+    dayForecast.push(data.days[i].temp)
+  }
+};
+
+function displayDayOfDescription(data) {
+  const description = data.days[0].description;
+  return description;
+};
+
+function displaySevenDayForecast(data) {
+
+};
+
+function switchCelFar(data) {
+
 };
