@@ -1,8 +1,10 @@
 import { format } from "date-fns";
 
 //Focus on DOM elements and UI last!
+//Convert all temps to celsius or a second API request? 
 
 let location = null;
+let forecastTemps = [];
 
 // entry function from index
 export function initializeApp() {
@@ -19,7 +21,6 @@ export function initializeApp() {
 async function queryForData(selectedLocation) { 
   try {
     const weatherData = await retrieveWeatherData(selectedLocation);
-    console.log(weatherData);
     displayWeatherData(weatherData);
   } catch(error) {
     console.log(error);
@@ -53,36 +54,55 @@ async function retrieveWeatherData(selectedLocation) {
   }
 };
 
-// displaying data
-function displayWeatherData(data) {
-  const container = document.createElement('div');
-  container.classList.add('weather-data-container');
+const displayDayOfForecast = function (data) {
+  function getAvg() {
+    const temp = data.days[0].temp;
+    return temp;
+  }
 
-  let description = document.createElement('p');
-  description.textContent = displayDayOfDescription(data);
-  displayDayOfForecast(data);
-  console.log(dayForecast);
+  function getHigh() {
+    const high = data.days[0].tempmax;
+    return high;
+  }
 
-  container.appendChild(description);
+  function getLow() {
+    const low = data.days[0].tempmin;
+    return low;
+  }
 
-  document.body.appendChild(container);
-};
+  function displayDayOfDescription() {
+    const description = data.days[0].description;
+    return description;
+  };
 
-let dayForecast = [];
-function displayDayOfForecast(data) {
-  dayForecast = [];
-  for (let i = 0; i < data.days.length; i++) {
-    dayForecast.push(data.days[i].temp)
+  return {
+    getAvg:getAvg,
+    getHigh:getHigh,
+    getLow:getLow,
+    displayDayOfDescription:displayDayOfDescription,
   }
 };
 
-function displayDayOfDescription(data) {
-  const description = data.days[0].description;
-  return description;
+// displaying data
+function displayWeatherData(data) {
+  
+  const description = displayDayOfForecast(data).displayDayOfDescription();
+  const todayTemp = displayDayOfForecast(data).getAvg();
+  const todayHigh = displayDayOfForecast(data).getHigh();
+  const todayLow = displayDayOfForecast(data).getLow();
+  
+  console.log(todayTemp);
+  console.log(todayHigh);
+  console.log(todayLow);
+  console.log(description);
+  console.log(displaySevenDayForecast(data));
 };
 
-function displaySevenDayForecast(data) {
 
+function displaySevenDayForecast(data) {
+  for (let i = 0; i < data.days.length; i++) {
+    console.log(data.days[i])
+  }
 };
 
 function switchCelFar(data) {
