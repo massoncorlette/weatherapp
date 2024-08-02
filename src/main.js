@@ -54,21 +54,36 @@ async function retrieveWeatherData(selectedLocation) {
   }
 };
 
-const displayDayOfForecast = function (data) {
+const displayDayOfForecast = function (data, celsius) {
   function getAvg() {
-    const temp = data.days[0].temp;
-    return temp;
-  }
+    let temp = parseInt(data.days[0].temp);
+    if (celsius) {
+      temp = (temp - 30) / 2;
+      return temp;
+    } else {
+      return temp;
+    }
+  };
 
   function getHigh() {
-    const high = data.days[0].tempmax;
-    return high;
-  }
+    let high = parseInt(data.days[0].tempmax);
+    if (celsius) {
+      high = (high - 30) / 2;
+      return high;
+    } else {
+      return high;
+    }
+  };
 
   function getLow() {
-    const low = data.days[0].tempmin;
-    return low;
-  }
+    let low = parseInt(data.days[0].tempmin);
+    if (celsius) {
+      low = (low - 30) / 2;
+      return low;
+    } else {
+      return low;
+    }
+  };
 
   function displayDayOfDescription() {
     const description = data.days[0].description;
@@ -85,9 +100,11 @@ const displayDayOfForecast = function (data) {
 
 // displaying data
 function displayWeatherData(data) {
+
+  let celsius = true;
   
   const description = displayDayOfForecast(data).displayDayOfDescription();
-  const todayTemp = displayDayOfForecast(data).getAvg();
+  const todayTemp = displayDayOfForecast(data, celsius).getAvg();
   const todayHigh = displayDayOfForecast(data).getHigh();
   const todayLow = displayDayOfForecast(data).getLow();
   
@@ -95,7 +112,7 @@ function displayWeatherData(data) {
   console.log(todayHigh);
   console.log(todayLow);
   console.log(description);
-  console.log(displaySevenDayForecast(data));
+  displaySevenDayForecast(data);
 };
 
 
