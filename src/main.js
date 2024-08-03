@@ -4,7 +4,6 @@ import { format } from "date-fns";
 //Convert all temps to celsius or a second API request? 
 
 let location = null;
-let forecastTemps = [];
 
 // entry function from index
 export function initializeApp() {
@@ -115,13 +114,8 @@ function displayWeatherData(data) {
   displaySevenDayForecast(data);
 };
 
-
 function displaySevenDayForecast(data) {
   for (let i = 0; i < data.days.length; i++) {
     console.log(data.days[i])
   }
-};
-
-function switchCelFar(data) {
-
 };
