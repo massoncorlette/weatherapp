@@ -1,6 +1,14 @@
 import { format } from "date-fns";
-import fogStorm from './images/fogstorm.gif';
+import landblue from './images/landscapeblue.png';
+import cloudyRain from './images/cloudyrain.gif'; import cloudyStorm from './images/cloudystorm.gif';
+import fogRain from './images/fograin.gif'; import fogStorm from './images/fogstorm.gif'; 
+import nightRain from './images/nightrain.gif'; import nightSnow from './images/nightsnow.gif';
+import nightStorm from './images/nightstorm.gif'; import overcastSnow from './images/overcastsnow.gif';
+import springRain from './images/springrain.gif'; import springStorm from './images/springstorm.gif';
+import summerRain from './images/summerrain.gif'; import summerStorm from './images/summerstorm.gif';
+import winterRain from './images/winterrain.gif'; import winterSnow from './images/wintersnow.gif';
 
+//1200 x 300
 //Convert all temps to celsius or a second API request? 
 
 let location = null;
@@ -14,7 +22,7 @@ export function initializeApp() {
   const weatherDiv = document.createElement('div');
   const gifDiv = document.createElement('div');
 
-  bgGif.src = fogStorm;
+  bgGif.src = nightStorm;
   bgGif.id = 'bgGif';
   weatherDiv.id = 'currentWeatherDiv';
   gifDiv.id = 'gifDiv';
@@ -145,6 +153,6 @@ function displaySevenDayForecast(data) {
   }
 };
 
-function displayGif(icontxt) {
-
+function displayGif(condition,temp) {
+  
 };
