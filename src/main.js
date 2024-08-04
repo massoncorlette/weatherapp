@@ -1,14 +1,29 @@
 import { format } from "date-fns";
+import fogStorm from './images/fogstorm.gif';
 
-//Focus on DOM elements and UI last!
 //Convert all temps to celsius or a second API request? 
 
 let location = null;
+let bodySelect = document.querySelector('body');
 
 // entry function from index
 export function initializeApp() {
   let submitBtn = document.querySelector('#submitbtn');
+
+  const bgGif = document.createElement('img');
+  const weatherDiv = document.createElement('div');
+  const gifDiv = document.createElement('div');
+
+  bgGif.src = fogStorm;
+  bgGif.id = 'bgGif';
+  weatherDiv.id = 'currentWeatherDiv';
+  gifDiv.id = 'gifDiv';
+
+  gifDiv.appendChild(bgGif);
+  weatherDiv.appendChild(gifDiv);
   
+  bodySelect.appendChild(weatherDiv);
+
   submitBtn.addEventListener('click', (event) => {
     location = document.querySelector('#locationInput').value;
     event.preventDefault();

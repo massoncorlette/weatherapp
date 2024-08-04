@@ -1,4 +1,41 @@
+* {border: 1px solid red;}
+
 body {
-  background-image: url(images/nightrainwide.gif);
-  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0%;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(20, 5%);
+  grid-template-rows: repeat(20, 5%);
+}
+
+#headercontainer {
+  grid-row: 1/4;
+  grid-column: span 21;
+}
+
+#currentWeatherDiv {
+  grid-row: 4/13;
+  grid-column: 1/21;
+  display: grid;
+  grid-template-columns: repeat(10, 10%);
+  grid-template-rows: repeat(10, 10%);
+}
+
+#gifDiv {
+  grid-column: 4/11;
+  grid-row: span 12;
+}
+
+#bgGif {
+  width: 100%;
+  height: 100%;
+}
+
+#forumcontainer {
+  grid-row: 18;
+}
+
+#weatherForum {
+  grid-row: 8/9;
 }
