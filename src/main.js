@@ -53,7 +53,7 @@ function getCurrentDate() {
 async function retrieveWeatherData(selectedLocation) {
   const date = getCurrentDate();
   console.log(date);
-  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/next7days?key=F9HSLGSNS2LUJYXZA84KV9H2M`;
+  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/next7days?iconSet=icons2&key=F9HSLGSNS2LUJYXZA84KV9H2M`;
   
   try {
     const data = await fetch(url, { mode: 'cors' });
@@ -69,6 +69,11 @@ async function retrieveWeatherData(selectedLocation) {
 };
 
 const displayDayOfForecast = function (data, celsius) {
+  function getCurrentCondition() {
+    let condition = data.days[0].icon;
+    return condition;
+  };
+
   function getAvg() {
     let temp = parseInt(data.days[0].temp);
     if (celsius) {
@@ -105,6 +110,7 @@ const displayDayOfForecast = function (data, celsius) {
   };
 
   return {
+    getCurrentCondition:getCurrentCondition,
     getAvg:getAvg,
     getHigh:getHigh,
     getLow:getLow,
@@ -113,11 +119,13 @@ const displayDayOfForecast = function (data, celsius) {
 };
 
 // displaying data
+// DOM functions
 function displayWeatherData(data) {
 
   let celsius = true;
   
   const description = displayDayOfForecast(data).displayDayOfDescription();
+  const currentCondtion = displayDayOfForecast(data).getCurrentCondition();
   const todayTemp = displayDayOfForecast(data, celsius).getAvg();
   const todayHigh = displayDayOfForecast(data).getHigh();
   const todayLow = displayDayOfForecast(data).getLow();
@@ -126,6 +134,8 @@ function displayWeatherData(data) {
   console.log(todayHigh);
   console.log(todayLow);
   console.log(description);
+  console.log(currentCondtion);
+
   displaySevenDayForecast(data);
 };
 
@@ -133,4 +143,8 @@ function displaySevenDayForecast(data) {
   for (let i = 0; i < data.days.length; i++) {
     console.log(data.days[i])
   }
+};
+
+function displayGif(icontxt) {
+
 };
