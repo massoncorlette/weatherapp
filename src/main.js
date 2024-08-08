@@ -49,7 +49,6 @@ function getCurrentDate() {
 };
 
 // displaying data
-// DOM functions
 function displayWeatherData(data) {
 
   let celsius = false;
@@ -89,6 +88,88 @@ function displayWeatherData(data) {
 function displaySevenDayForecast(data) {
   for (let i = 0; i < data.days.length; i++) {
     console.log(data.days[i])
+  }
+};
+
+// return Promise object
+async function retrieveWeatherData(selectedLocation) {
+  const date = getCurrentDate();
+  console.log(date);
+  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/next7days?iconSet=icons2&key=F9HSLGSNS2LUJYXZA84KV9H2M`;
+  
+  try {
+    const data = await fetch(url, { mode: 'cors' });
+    if (!data.ok) {
+      throw new Error(`Response status: ${data.status}`);
+    }
+    const weatherData = await data.json();
+    console.log(weatherData);
+    return weatherData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//Using Index for forecasted days
+const displayDayOfForecast = function (data, celsius, index) {
+  function getCurrentCondition() {
+    let condition = data.currentConditions.icon;
+    return condition;
+  };
+
+  function getAvg() {
+    let temp = parseInt(data.days[index].temp);
+    if (celsius) {
+      temp = (temp - 30) / 2;
+      return temp;
+    } else {
+      return temp;
+    }
+  };
+
+  function getHigh() {
+    let high = parseInt(data.days[index].tempmax);
+    if (celsius) {
+      high = (high - 30) / 2;
+      return high;
+    } else {
+      return high;
+    }
+  };
+
+  function getLow() {
+    let low = parseInt(data.days[index].tempmin);
+    if (celsius) {
+      low = (low - 30) / 2;
+      return low;
+    } else {
+      return low;
+    }
+  };
+
+  function displayDayOfDescription() {
+    const description = data.days[index].description;
+    return description;
+  };
+
+  function getVisibility() {
+    const visible = data.days[index].visibility;
+    return visible;
+  }
+
+  function getCloudCoverage() {
+    const cloudy = data.days[index].cloudcover;
+    return cloudy;
+  }
+
+  return {
+    getCurrentCondition:getCurrentCondition,
+    getAvg:getAvg,
+    getHigh:getHigh,
+    getLow:getLow,
+    displayDayOfDescription:displayDayOfDescription,
+    getVisibility:getVisibility,
+    getCloudCoverage:getCloudCoverage,
   }
 };
 
@@ -150,87 +231,6 @@ function displayGif(condition,temp, visibility,cloudy) {
     } else if (temp < 40) {
       return landblue;
     }    
-  }
-};
-
-// return Promise object
-async function retrieveWeatherData(selectedLocation) {
-  const date = getCurrentDate();
-  console.log(date);
-  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/next7days?iconSet=icons2&key=F9HSLGSNS2LUJYXZA84KV9H2M`;
-  
-  try {
-    const data = await fetch(url, { mode: 'cors' });
-    if (!data.ok) {
-      throw new Error(`Response status: ${data.status}`);
-    }
-    const weatherData = await data.json();
-    console.log(weatherData);
-    return weatherData;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const displayDayOfForecast = function (data, celsius) {
-  function getCurrentCondition() {
-    let condition = data.currentConditions.icon;
-    return condition;
-  };
-
-  function getAvg() {
-    let temp = parseInt(data.days[0].temp);
-    if (celsius) {
-      temp = (temp - 30) / 2;
-      return temp;
-    } else {
-      return temp;
-    }
-  };
-
-  function getHigh() {
-    let high = parseInt(data.days[0].tempmax);
-    if (celsius) {
-      high = (high - 30) / 2;
-      return high;
-    } else {
-      return high;
-    }
-  };
-
-  function getLow() {
-    let low = parseInt(data.days[0].tempmin);
-    if (celsius) {
-      low = (low - 30) / 2;
-      return low;
-    } else {
-      return low;
-    }
-  };
-
-  function displayDayOfDescription() {
-    const description = data.days[0].description;
-    return description;
-  };
-
-  function getVisibility() {
-    const visible = data.days[0].visibility;
-    return visible;
-  }
-
-  function getCloudCoverage() {
-    const cloudy = data.days[0].cloudcover;
-    return cloudy;
-  }
-
-  return {
-    getCurrentCondition:getCurrentCondition,
-    getAvg:getAvg,
-    getHigh:getHigh,
-    getLow:getLow,
-    displayDayOfDescription:displayDayOfDescription,
-    getVisibility:getVisibility,
-    getCloudCoverage:getCloudCoverage,
   }
 };
 

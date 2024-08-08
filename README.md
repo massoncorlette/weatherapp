@@ -30,6 +30,21 @@ function to switchCelFar()
 function clearMain()
 
 
+queryForData()
+  displayWeatherData()
+
+displayWeatherData(data, index)
+  variables = displayDayOfForecast(data, index).method
+
+  gif = displayGif()
+
+  displaySevenDayForecast(data)
+
+displaySevenDayForecast(data)
+  for i=0 i<8 i++
+    displayDayOfForecast(data, i)
+
+displayDayOfForecast(data, cel, index)
 
 snow	Amount of snow is greater than zero
 snow-showers-day	Periods of snow during the day
