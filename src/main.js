@@ -1,5 +1,7 @@
 import { format } from "date-fns";
-import landblue from './images/landscapeblue.png';
+import landblue from './images/landscapeblue.png'; import landgrey from './images/landscapegrey.png';
+import landfog from './images/landscapefog.png';  import landnight from './images/landscapenight.png';
+import landgreen from './images/landscapegreen.png'; import landyellow from './images/landscapeyellow.png';
 import cloudyRain from './images/cloudyrain.gif'; import cloudyStorm from './images/cloudystorm.gif';
 import fogRain from './images/fograin.gif'; import fogStorm from './images/fogstorm.gif'; 
 import nightRain from './images/nightrain.gif'; import nightSnow from './images/nightsnow.gif';
@@ -57,6 +59,8 @@ function displayWeatherData(data) {
   const todayTemp = displayDayOfForecast(data, celsius).getAvg();
   const todayHigh = displayDayOfForecast(data).getHigh();
   const todayLow = displayDayOfForecast(data).getLow();
+  const todayVisible = displayDayOfForecast(data).getVisibility();
+  const todayClouds = displayDayOfForecast(data).getCloudCoverage();
   
   console.log(todayTemp);
   console.log(todayHigh);
@@ -76,7 +80,7 @@ function displayWeatherData(data) {
   
   bodySelect.appendChild(weatherDiv);
   
-  const gifToDisplay = displayGif(currentCondtion, todayTemp);
+  const gifToDisplay = displayGif(currentCondtion, todayTemp, todayVisible, todayClouds);
   bgGif.src = gifToDisplay;
 
   displaySevenDayForecast(data);
@@ -88,9 +92,64 @@ function displaySevenDayForecast(data) {
   }
 };
 
-function displayGif(condition,temp) {
-  if (condition === "showers-day" && temp < 70 && temp > 50) {
-    return springRain;
+function displayGif(condition,temp, visibility,cloudy) {
+  if (condition === "snow-showers-day") {
+    if (cloudy > 85) {
+      return overcastSnow;
+    } else {
+      return winterSnow;
+    }
+  } else if (condition === "snow-showers-night") {
+    return nightSnow;
+  } else if (condition === "thunder-showers-day") {
+    if (visibility < 1) {
+      return fogStorm;
+    }
+    if (cloudy > 80) {
+      return cloudyStorm;
+    }
+    else if (temp < 70 && temp > 50) {
+      return springStorm;
+    } else if (temp >= 70) {
+      return summerStorm;
+    }
+  } else if (condition === "thunder-showers-night") {
+    if (visibility < 1) {
+      return fogStorm;
+    } else {
+      return nightStorm;
+    }
+  } else if (condition === "showers-day") {
+    if (cloudy > 80) {
+      return cloudyRain;
+    }
+    if (temp < 70 && temp > 50) {
+      return springRain;
+    } else if (temp <= 50 && temp > 32) {
+      return winterRain;
+    } else if (temp >= 70) {
+      return summerRain;
+    }
+  } else if (condition === "showers-night") {
+    if (visibility < 1) {
+      return fogRain;
+    } else {
+      return nightRain;
+    }
+  } else if (condition === "fog") {
+    return landfog;
+  } else if (condition === "partly-cloudy-night" || condition === "clear-night") {
+    return landnight;
+  } else if (condition === "partly-cloudy-day" || condition === "clear-day") {
+    if (temp < 70 && temp > 50) {
+      return landgreen;
+    } else if (temp >= 70) {
+      return landyellow;
+    } else if (temp <= 50 && temp >= 40) {
+      return landgrey;
+    } else if (temp < 40) {
+      return landblue;
+    }    
   }
 };
 
@@ -115,7 +174,7 @@ async function retrieveWeatherData(selectedLocation) {
 
 const displayDayOfForecast = function (data, celsius) {
   function getCurrentCondition() {
-    let condition = data.days[0].icon;
+    let condition = data.currentConditions.icon;
     return condition;
   };
 
@@ -154,12 +213,24 @@ const displayDayOfForecast = function (data, celsius) {
     return description;
   };
 
+  function getVisibility() {
+    const visible = data.days[0].visibility;
+    return visible;
+  }
+
+  function getCloudCoverage() {
+    const cloudy = data.days[0].cloudcover;
+    return cloudy;
+  }
+
   return {
     getCurrentCondition:getCurrentCondition,
     getAvg:getAvg,
     getHigh:getHigh,
     getLow:getLow,
     displayDayOfDescription:displayDayOfDescription,
+    getVisibility:getVisibility,
+    getCloudCoverage:getCloudCoverage,
   }
 };
 
