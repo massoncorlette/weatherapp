@@ -18,19 +18,8 @@ let bodySelect = document.querySelector('body');
 export function initializeApp() {
   let submitBtn = document.querySelector('#submitbtn');
 
-  const bgGif = document.createElement('img');
-  const weatherDiv = document.createElement('div');
-  const gifDiv = document.createElement('div');
-
-  bgGif.src = nightStorm;
-  bgGif.id = 'bgGif';
-  weatherDiv.id = 'currentWeatherDiv';
-  gifDiv.id = 'gifDiv';
-
-  gifDiv.appendChild(bgGif);
-  weatherDiv.appendChild(gifDiv);
-  
-  bodySelect.appendChild(weatherDiv);
+  const defaultLocation = "London";
+  queryForData(defaultLocation);
 
   submitBtn.addEventListener('click', (event) => {
     location = document.querySelector('#locationInput').value;
@@ -55,6 +44,54 @@ function getCurrentDate() {
   const formattedDate = format(currentDate, 'MM-dd');
 
   return formattedDate;
+};
+
+// displaying data
+// DOM functions
+function displayWeatherData(data) {
+
+  let celsius = false;
+  
+  const description = displayDayOfForecast(data).displayDayOfDescription();
+  const currentCondtion = displayDayOfForecast(data).getCurrentCondition();
+  const todayTemp = displayDayOfForecast(data, celsius).getAvg();
+  const todayHigh = displayDayOfForecast(data).getHigh();
+  const todayLow = displayDayOfForecast(data).getLow();
+  
+  console.log(todayTemp);
+  console.log(todayHigh);
+  console.log(todayLow);
+  console.log(description);
+
+  const bgGif = document.createElement('img');
+  const weatherDiv = document.createElement('div');
+  const gifDiv = document.createElement('div');
+
+  bgGif.id = 'bgGif';
+  weatherDiv.id = 'currentWeatherDiv';
+  gifDiv.id = 'gifDiv';
+
+  gifDiv.appendChild(bgGif);
+  weatherDiv.appendChild(gifDiv);
+  
+  bodySelect.appendChild(weatherDiv);
+  
+  const gifToDisplay = displayGif(currentCondtion, todayTemp);
+  bgGif.src = gifToDisplay;
+
+  displaySevenDayForecast(data);
+};
+
+function displaySevenDayForecast(data) {
+  for (let i = 0; i < data.days.length; i++) {
+    console.log(data.days[i])
+  }
+};
+
+function displayGif(condition,temp) {
+  if (condition === "showers-day" && temp < 70 && temp > 50) {
+    return springRain;
+  }
 };
 
 // return Promise object
@@ -126,33 +163,3 @@ const displayDayOfForecast = function (data, celsius) {
   }
 };
 
-// displaying data
-// DOM functions
-function displayWeatherData(data) {
-
-  let celsius = true;
-  
-  const description = displayDayOfForecast(data).displayDayOfDescription();
-  const currentCondtion = displayDayOfForecast(data).getCurrentCondition();
-  const todayTemp = displayDayOfForecast(data, celsius).getAvg();
-  const todayHigh = displayDayOfForecast(data).getHigh();
-  const todayLow = displayDayOfForecast(data).getLow();
-  
-  console.log(todayTemp);
-  console.log(todayHigh);
-  console.log(todayLow);
-  console.log(description);
-  console.log(currentCondtion);
-
-  displaySevenDayForecast(data);
-};
-
-function displaySevenDayForecast(data) {
-  for (let i = 0; i < data.days.length; i++) {
-    console.log(data.days[i])
-  }
-};
-
-function displayGif(condition,temp) {
-  
-};
