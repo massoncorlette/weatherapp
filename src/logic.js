@@ -1,14 +1,3 @@
-import landblue from './images/landscapeblue.png'; import landgrey from './images/landscapegrey.png';
-import landfog from './images/landscapefog.png';  import landnight from './images/landscapenight.png';
-import landgreen from './images/landscapegreen.png'; import landyellow from './images/landscapeyellow.png';
-import cloudyRain from './images/cloudyrain.gif'; import cloudyStorm from './images/cloudystorm.gif';
-import fogRain from './images/fograin.gif'; import fogStorm from './images/fogstorm.gif'; 
-import nightRain from './images/nightrain.gif'; import nightSnow from './images/nightsnow.gif';
-import nightStorm from './images/nightstorm.gif'; import overcastSnow from './images/overcastsnow.gif';
-import springRain from './images/springrain.gif'; import springStorm from './images/springstorm.gif';
-import summerRain from './images/summerrain.gif'; import summerStorm from './images/summerstorm.gif';
-import winterRain from './images/winterrain.gif'; import winterSnow from './images/wintersnow.gif';
-
 import { format } from "date-fns";
 import { displayWeatherData } from './dom';
 
@@ -112,64 +101,18 @@ export const displayForecast = function (data, celsius, index) {
   }
 };
 
-export function displayGif(condition,temp, visibility,cloudy) {
-  if (condition === "snow-showers-day") {
-    if (cloudy > 85) {
-      return overcastSnow;
-    } else {
-      return winterSnow;
-    }
-  } else if (condition === "snow-showers-night") {
-    return nightSnow;
-  } else if (condition === "thunder-showers-day") {
-    if (visibility < 1) {
-      return fogStorm;
-    }
-    if (cloudy > 80) {
-      return cloudyStorm;
-    }
-    else if (temp < 70 && temp > 50) {
-      return springStorm;
-    } else if (temp >= 70) {
-      return summerStorm;
-    }
-  } else if (condition === "thunder-showers-night") {
-    if (visibility < 1) {
-      return fogStorm;
-    } else {
-      return nightStorm;
-    }
-  } else if (condition === "showers-day") {
-    if (cloudy > 80) {
-      return cloudyRain;
-    }
-    if (temp < 70 && temp > 50) {
-      return springRain;
-    } else if (temp <= 50 && temp > 32) {
-      return winterRain;
-    } else if (temp >= 70) {
-      return summerRain;
-    }
-  } else if (condition === "showers-night") {
-    if (visibility < 1) {
-      return fogRain;
-    } else {
-      return nightRain;
-    }
-  } else if (condition === "fog") {
-    return landfog;
-  } else if (condition === "partly-cloudy-night" || condition === "clear-night") {
-    return landnight;
-  } else if (condition === "partly-cloudy-day" || condition === "clear-day") {
-    if (temp < 70 && temp > 50) {
-      return landgreen;
-    } else if (temp >= 70) {
-      return landyellow;
-    } else if (temp <= 50 && temp >= 40) {
-      return landgrey;
-    } else if (temp < 40) {
-      return landblue;
-    }    
+export function storeSevenDayForecast(data) {
+  const sevenDayForecast = [];
+  for (let i = 0; i < data.days.length; i++) {
+    sevenDayForecast.push(data.days[i]);
   }
+  console.log(sevenDayForecast);
+  return sevenDayForecast;
 };
+
+export function storeDayOfForecast(data) {
+  const dayOfForecast = [];
+  dayOfForecast.push(data.days[0]);
+  return dayOfForecast;
+}
 

@@ -19,15 +19,28 @@ using try block to get JSON data from weather API
 displayForecast(data, celsisus, index)
 can return data stat for any given day using index
 
-displayGif()
-return GIF based upon condition key-value
+storeSevenDayForecast
+  stores and returns 7 day data
+
+storeDayOfForecast
+  stores and returns day of data
 
 // dom
 
 displayWeatherData(data)
-can use displayForecast() return data to display for DOM, 
-can display for one day, 7 days (maybe two weeks)?
- 
+  displayDayOf(data)
+    make DOM elements for Day Of
+  displaySevenDay(data) 
+    make Dom elements for 7-day forecast
+
+  dayOf = storeDayOfForecast(data)
+  sevenDay = storeSevenDayForecast(data)
+  
+  displayDayOf(dayOf)
+  displaySevenDay(sevenDay)
+
+displayGif()
+return GIF based upon condition key-value
 
 
 
