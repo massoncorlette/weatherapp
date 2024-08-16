@@ -4,8 +4,36 @@ Focusing on working with API's, asynchronous code, Promise objects
 https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/
 
 
-// MAIN functions
-(import DOM functions)
+// logic
+
+intitilizeApp()
+listening for submit button, to queryForData()
+
+queryForData(location)
+getting promise object from retrieveWeatherData(location)
+dealing with Promise object, so I can then displayWeatherData()
+
+retrieveWeatherData(location)
+using try block to get JSON data from weather API
+
+displayForecast(data, celsisus, index)
+can return data stat for any given day using index
+
+displayGif()
+return GIF based upon condition key-value
+
+// dom
+
+displayWeatherData(data)
+can use displayForecast() return data to display for DOM, 
+can display for one day, 7 days (maybe two weeks)?
+ 
+
+
+
+
+
+
 
 function to retrieveWeatherData() from server 
   fetch (url)

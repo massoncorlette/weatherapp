@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import landblue from './images/landscapeblue.png'; import landgrey from './images/landscapegrey.png';
 import landfog from './images/landscapefog.png';  import landnight from './images/landscapenight.png';
 import landgreen from './images/landscapegreen.png'; import landyellow from './images/landscapeyellow.png';
@@ -10,28 +9,11 @@ import springRain from './images/springrain.gif'; import springStorm from './ima
 import summerRain from './images/summerrain.gif'; import summerStorm from './images/summerstorm.gif';
 import winterRain from './images/winterrain.gif'; import winterSnow from './images/wintersnow.gif';
 
-//1200 x 300
-//Convert all temps to celsius or a second API request? 
-
-let location = null;
-let bodySelect = document.querySelector('body');
-
-// entry function from index
-export function initializeApp() {
-  let submitBtn = document.querySelector('#submitbtn');
-
-  const defaultLocation = "London";
-  queryForData(defaultLocation);
-
-  submitBtn.addEventListener('click', (event) => {
-    location = document.querySelector('#locationInput').value;
-    event.preventDefault();
-    queryForData(location);
-  }); 
-}
+import { format } from "date-fns";
+import { displayWeatherData } from './dom';
 
 // dealing with Promise object
-async function queryForData(selectedLocation) { 
+export async function queryForData(selectedLocation) { 
   try {
     const weatherData = await retrieveWeatherData(selectedLocation);
     displayWeatherData(weatherData);
@@ -40,59 +22,8 @@ async function queryForData(selectedLocation) {
   }
 };
 
-function getCurrentDate() {
-  const currentDate = new Date();
-
-  const formattedDate = format(currentDate, 'MM-dd');
-
-  return formattedDate;
-};
-
-// displaying data
-function displayWeatherData(data) {
-
-  let celsius = false;
-  
-  const description = displayDayOfForecast(data).displayDayOfDescription();
-  const currentCondtion = displayDayOfForecast(data).getCurrentCondition();
-  const todayTemp = displayDayOfForecast(data, celsius).getAvg();
-  const todayHigh = displayDayOfForecast(data).getHigh();
-  const todayLow = displayDayOfForecast(data).getLow();
-  const todayVisible = displayDayOfForecast(data).getVisibility();
-  const todayClouds = displayDayOfForecast(data).getCloudCoverage();
-  
-  console.log(todayTemp);
-  console.log(todayHigh);
-  console.log(todayLow);
-  console.log(description);
-
-  const bgGif = document.createElement('img');
-  const weatherDiv = document.createElement('div');
-  const gifDiv = document.createElement('div');
-
-  bgGif.id = 'bgGif';
-  weatherDiv.id = 'currentWeatherDiv';
-  gifDiv.id = 'gifDiv';
-
-  gifDiv.appendChild(bgGif);
-  weatherDiv.appendChild(gifDiv);
-  
-  bodySelect.appendChild(weatherDiv);
-  
-  const gifToDisplay = displayGif(currentCondtion, todayTemp, todayVisible, todayClouds);
-  bgGif.src = gifToDisplay;
-
-  displaySevenDayForecast(data);
-};
-
-function displaySevenDayForecast(data) {
-  for (let i = 0; i < data.days.length; i++) {
-    console.log(data.days[i])
-  }
-};
-
 // return Promise object
-async function retrieveWeatherData(selectedLocation) {
+export async function retrieveWeatherData(selectedLocation) {
   const date = getCurrentDate();
   console.log(date);
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/next7days?iconSet=icons2&key=F9HSLGSNS2LUJYXZA84KV9H2M`;
@@ -110,8 +41,16 @@ async function retrieveWeatherData(selectedLocation) {
   }
 };
 
+function getCurrentDate() {
+  const currentDate = new Date();
+
+  const formattedDate = format(currentDate, 'MM-dd');
+
+  return formattedDate;
+};
+
 //Using Index for forecasted days
-const displayDayOfForecast = function (data, celsius, index) {
+export const displayForecast = function (data, celsius, index) {
   function getCurrentCondition() {
     let condition = data.currentConditions.icon;
     return condition;
@@ -173,7 +112,7 @@ const displayDayOfForecast = function (data, celsius, index) {
   }
 };
 
-function displayGif(condition,temp, visibility,cloudy) {
+export function displayGif(condition,temp, visibility,cloudy) {
   if (condition === "snow-showers-day") {
     if (cloudy > 85) {
       return overcastSnow;
