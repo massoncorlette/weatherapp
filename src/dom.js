@@ -8,6 +8,7 @@ import nightStorm from './images/nightstorm.gif'; import overcastSnow from './im
 import springRain from './images/springrain.gif'; import springStorm from './images/springstorm.gif';
 import summerRain from './images/summerrain.gif'; import summerStorm from './images/summerstorm.gif';
 import winterRain from './images/winterrain.gif'; import winterSnow from './images/wintersnow.gif';
+import cloudSunIcon from './images/cloud-sun.svg';
 
 import { displayForecast, storeSevenDayForecast, storeDayOfForecast, queryForData } from "./logic";
 
@@ -21,7 +22,12 @@ let bodySelect = document.querySelector('body');
 export function initializeApp() {
   let submitBtn = document.querySelector('#submitbtn');
 
-  const defaultLocation = "London";
+  const iconLogo = document.getElementById('iconLogo');
+  const imgElement = document.createElement('img');
+  imgElement.src = cloudSunIcon;
+  iconLogo.appendChild(imgElement);
+
+  const defaultLocation = "Colombia";
   queryForData(defaultLocation);
 
   submitBtn.addEventListener('click', (event) => {
@@ -52,11 +58,9 @@ export const displayWeatherData = function(data) {
 
   }
   
-  console.log(currentTemp);
   console.log(currentCondition);
   console.log(todayHigh);
   console.log(todayLow);
-  console.log(dayOfCondition);
 
   const bgGif = document.createElement('img');
   const weatherDiv = document.createElement('div');
