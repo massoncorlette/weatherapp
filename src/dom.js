@@ -28,6 +28,8 @@ export function initializeApp() {
   iconLogo.appendChild(imgElement);
 
   const defaultLocation = "Colombia";
+  location = defaultLocation;
+  
   queryForData(defaultLocation);
 
   submitBtn.addEventListener('click', (event) => {
@@ -50,6 +52,18 @@ export const displayWeatherData = function(data) {
   const todayVisible = displayForecast(data,celsius, 0).getVisibility();
   const todayClouds = displayForecast(data,celsius,0).getCloudCoverage();
 
+  const dayOfContainer = document.createElement('div');
+  dayOfContainer.id = 'dayOfContainer';
+
+  const dayOfDetailsContainer = document.createElement('div');
+  dayOfDetailsContainer.id = 'dayOfDetailsContainer';
+
+  const dayOfForecastContainer = document.createElement('div');
+  dayOfForecastContainer.id = 'dayOfForecastContainer';
+
+  const weekForecastContainer = document.createElement('div');
+  weekForecastContainer.id = 'weekForecastContainer';
+
   function displayDayOf(currentTemp,condition,high,low) {
     
   }
@@ -71,9 +85,13 @@ export const displayWeatherData = function(data) {
   gifDiv.id = 'gifDiv';
 
   gifDiv.appendChild(bgGif);
+  weatherDiv.appendChild(dayOfContainer);
   weatherDiv.appendChild(gifDiv);
   
   bodySelect.appendChild(weatherDiv);
+  bodySelect.appendChild(dayOfDetailsContainer);
+  bodySelect.appendChild(dayOfForecastContainer);
+  bodySelect.appendChild(weekForecastContainer);
   
   const gifToDisplay = displayGif(dayOfCondition, currentTemp, todayVisible, todayClouds);
   bgGif.src = gifToDisplay;

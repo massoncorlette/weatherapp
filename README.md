@@ -43,49 +43,11 @@ displayGif()
 return GIF based upon condition key-value
 
 
-
-
-
-
-
-function to retrieveWeatherData() from server 
-  fetch (url)
-    .then(displayData(data))
-
-function to queryForData through an eventListener
-  'click' => retrieveWeatherData(location)
-
-function to displayWeatherData()
-
-function to displayDayOfForecast()
-
-function to displayDayOfDescription()
-
-function to displaySevenDayForecast()
-
-function to switchCelFar()
-
-
-// DOM functions
-
-function clearMain()
-
-
-queryForData()
-  displayWeatherData()
-
-displayWeatherData(data, index)
-  variables = displayDayOfForecast(data, index).method
-
-  gif = displayGif()
-
-  displaySevenDayForecast(data)
-
-displaySevenDayForecast(data)
-  for i=0 i<8 i++
-    displayDayOfForecast(data, i)
-
-displayDayOfForecast(data, cel, index)
+Layout: Header has logo - search option - C/F switch
+Section 1 has location - current Temp - H/L - conditon
+Section 2 has further details for current day
+Section 3 has forecast for day
+Section 4 has 7 day forecast
 
 snow	Amount of snow is greater than zero
 snow-showers-day	Periods of snow during the day
