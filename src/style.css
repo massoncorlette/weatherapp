@@ -1,8 +1,9 @@
-* {border: 1px solid red;}
+* {border: 0px solid red;}
 
 :root {
   --primary-color: rgb(63, 97, 45);
   --main-txt: rgb(228, 228, 228);
+
 }
 
 body {
@@ -87,8 +88,35 @@ body {
 
 #forumcontainer {
   grid-row: 18;
+  width: 30%;
+  display: flex;
 }
 
 #weatherForum {
   grid-row: 8/9;
+  display: flex;
+  flex: 1;
+}
+
+#input, #submitbtn {
+  padding: 10px;
+}
+
+#inputContainer {
+  display: flex;
+  flex: 1;
+  border-top-left-radius: 4%;
+  border-bottom-left-radius: 4%;
+}
+
+#locationInput {
+  display: flex;
+  flex: 1;
+}
+
+
+#submitbtn {
+  border-top-right-radius: 4%;
+  border-bottom-right-radius: 4%;
+  display: flex;
 }

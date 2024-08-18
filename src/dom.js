@@ -29,7 +29,8 @@ export function initializeApp() {
 
   const defaultLocation = "Colombia";
   location = defaultLocation;
-  
+
+  setupDisplayContainers();
   queryForData(defaultLocation);
 
   submitBtn.addEventListener('click', (event) => {
@@ -37,6 +38,38 @@ export function initializeApp() {
     event.preventDefault();
     queryForData(location);
   }); 
+}
+
+function setupDisplayContainers() {
+  const weatherDiv = document.createElement('div');
+  weatherDiv.id = 'currentWeatherDiv';
+
+  const dayOfContainer = document.createElement('div');
+  dayOfContainer.id = 'dayOfContainer';
+
+  const bgGif = document.createElement('img');
+  bgGif.id = 'bgGif';
+  const gifDiv = document.createElement('div');
+  gifDiv.id = 'gifDiv';
+
+  const dayOfDetailsContainer = document.createElement('div');
+  dayOfDetailsContainer.id = 'dayOfDetailsContainer';
+
+  const dayOfForecastContainer = document.createElement('div');
+  dayOfForecastContainer.id = 'dayOfForecastContainer';
+
+  const weekForecastContainer = document.createElement('div');
+  weekForecastContainer.id = 'weekForecastContainer';
+
+  weatherDiv.appendChild(dayOfContainer);
+  gifDiv.appendChild(bgGif);
+  weatherDiv.appendChild(gifDiv);
+  
+ 
+  bodySelect.appendChild(weatherDiv);
+  bodySelect.appendChild(dayOfDetailsContainer);
+  bodySelect.appendChild(dayOfForecastContainer);
+  bodySelect.appendChild(weekForecastContainer);
 }
 
 // displaying data
@@ -51,18 +84,7 @@ export const displayWeatherData = function(data) {
   const todayLow = displayForecast(data,celsius, 0).getLow();
   const todayVisible = displayForecast(data,celsius, 0).getVisibility();
   const todayClouds = displayForecast(data,celsius,0).getCloudCoverage();
-
-  const dayOfContainer = document.createElement('div');
-  dayOfContainer.id = 'dayOfContainer';
-
-  const dayOfDetailsContainer = document.createElement('div');
-  dayOfDetailsContainer.id = 'dayOfDetailsContainer';
-
-  const dayOfForecastContainer = document.createElement('div');
-  dayOfForecastContainer.id = 'dayOfForecastContainer';
-
-  const weekForecastContainer = document.createElement('div');
-  weekForecastContainer.id = 'weekForecastContainer';
+  const bgGif = document.querySelector('#bgGif');
 
   function displayDayOf(currentTemp,condition,high,low) {
     
@@ -76,23 +98,8 @@ export const displayWeatherData = function(data) {
   console.log(todayHigh);
   console.log(todayLow);
 
-  const bgGif = document.createElement('img');
-  const weatherDiv = document.createElement('div');
-  const gifDiv = document.createElement('div');
 
-  bgGif.id = 'bgGif';
-  weatherDiv.id = 'currentWeatherDiv';
-  gifDiv.id = 'gifDiv';
-
-  gifDiv.appendChild(bgGif);
-  weatherDiv.appendChild(dayOfContainer);
-  weatherDiv.appendChild(gifDiv);
-  
-  bodySelect.appendChild(weatherDiv);
-  bodySelect.appendChild(dayOfDetailsContainer);
-  bodySelect.appendChild(dayOfForecastContainer);
-  bodySelect.appendChild(weekForecastContainer);
-  
+ 
   const gifToDisplay = displayGif(dayOfCondition, currentTemp, todayVisible, todayClouds);
   bgGif.src = gifToDisplay;
 
@@ -107,7 +114,7 @@ export const displayWeatherData = function(data) {
 };
 
 function displayGif(condition,temp, visibility,cloudy) {
-  if (condition === "snow-showers-day") {
+  if (condition === "snow-showers-day" || condition === "snow") {
     if (cloudy > 85) {
       return overcastSnow;
     } else {
@@ -115,7 +122,7 @@ function displayGif(condition,temp, visibility,cloudy) {
     }
   } else if (condition === "snow-showers-night") {
     return nightSnow;
-  } else if (condition === "thunder-showers-day") {
+  } else if (condition === "thunder-showers-day" || condition === "thunder-rain") {
     if (visibility < 1) {
       return fogStorm;
     }
@@ -133,7 +140,7 @@ function displayGif(condition,temp, visibility,cloudy) {
     } else {
       return nightStorm;
     }
-  } else if (condition === "showers-day") {
+  } else if (condition === "showers-day" || condition === "rain") {
     if (cloudy > 80) {
       return cloudyRain;
     }
@@ -152,9 +159,10 @@ function displayGif(condition,temp, visibility,cloudy) {
     }
   } else if (condition === "fog") {
     return landfog;
+  
   } else if (condition === "partly-cloudy-night" || condition === "clear-night") {
     return landnight;
-  } else if (condition === "partly-cloudy-day" || condition === "clear-day") {
+  } else if (condition === "partly-cloudy-day" || condition === "clear-day" || condition === "windy") {
     if (temp < 70 && temp > 50) {
       return landgreen;
     } else if (temp >= 70) {
