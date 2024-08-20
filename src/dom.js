@@ -45,7 +45,16 @@ function setupDisplayContainers() {
   weatherDiv.id = 'currentWeatherDiv';
 
   const dayOfContainer = document.createElement('div');
+  const conditionAndLocation = document.createElement('div');
+  const tempHighLow = document.createElement('div');
+  const dayDescription = document.createElement('div');
   dayOfContainer.id = 'dayOfContainer';
+  conditionAndLocation.id = 'conditionAndLocation';
+  tempHighLow.id = 'tempHighLow';
+  dayDescription.id = 'dayDescription';
+  dayOfContainer.appendChild(conditionAndLocation);
+  dayOfContainer.appendChild(tempHighLow);
+  dayOfContainer.appendChild(dayDescription);
 
   const bgGif = document.createElement('img');
   bgGif.id = 'bgGif';
@@ -70,6 +79,18 @@ function setupDisplayContainers() {
   bodySelect.appendChild(dayOfDetailsContainer);
   bodySelect.appendChild(dayOfForecastContainer);
   bodySelect.appendChild(weekForecastContainer);
+
+  function setupDayOfDetailsDisplay(measure,stat,unit) {
+    const measurementContainer = document.createElement('div');
+    measurementContainer.id = 'measurementContainer';
+
+    if (unit) {
+      measurementContainer.textContent = `${measure}: ${stat} ${unit}`;
+    } else {
+      measurementContainer.textContent = `${measure}: ${stat}`;
+    }
+  
+  }
 }
 
 // displaying data
