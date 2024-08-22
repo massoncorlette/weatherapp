@@ -5,7 +5,7 @@ import { displayWeatherData } from './dom';
 export async function queryForData(selectedLocation) { 
   try {
     const weatherData = await retrieveWeatherData(selectedLocation);
-    displayWeatherData(weatherData);
+    displayWeatherData(weatherData, selectedLocation);
   } catch(error) {
     console.log(error);
   }
@@ -13,8 +13,7 @@ export async function queryForData(selectedLocation) {
 
 // return Promise object
 export async function retrieveWeatherData(selectedLocation) {
-  const day = getCurrentDate();
-  console.log(day);
+
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/next7days?iconSet=icons2&key=F9HSLGSNS2LUJYXZA84KV9H2M`;
   
   try {
@@ -30,7 +29,7 @@ export async function retrieveWeatherData(selectedLocation) {
   }
 };
 
-function getCurrentDate() {
+function getCurrentDay() {
   const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Friday", "Saturday"];
   const currentDate = getDay(new Date());
 

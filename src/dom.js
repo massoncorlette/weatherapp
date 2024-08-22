@@ -8,7 +8,7 @@ import nightStorm from './images/nightstorm.gif'; import overcastSnow from './im
 import springRain from './images/springrain.gif'; import springStorm from './images/springstorm.gif';
 import summerRain from './images/summerrain.gif'; import summerStorm from './images/summerstorm.gif';
 import winterRain from './images/winterrain.gif'; import winterSnow from './images/wintersnow.gif';
-import cloudSunIcon from './images/cloud-sun.svg';
+import cloudSunIcon from './images/cloud-sun.svg'; import glowingRed from './images/glowingred.gif';
 
 import { displayForecast, storeSevenDayForecast, storeDayOfForecast, queryForData } from "./logic";
 
@@ -58,8 +58,20 @@ function setupDisplayContainers() {
 
   const bgGif = document.createElement('img');
   bgGif.id = 'bgGif';
+  const bgGifDiv = document.createElement('div');
+  bgGifDiv.id = 'bgGifDiv';
+  bgGifDiv.appendChild(bgGif);
+  const recordGif = document.createElement('img');
+  recordGif.src = glowingRed;
+  recordGif.id = 'recordGif';
   const gifDiv = document.createElement('div');
   gifDiv.id = 'gifDiv';
+  const recordDiv = document.createElement('div');
+  recordDiv.id = 'recordDiv';
+  const recordTxt = document.createElement('p');
+  recordTxt.textContent = 'Live View ';
+  recordDiv.appendChild(recordGif);
+  recordDiv.appendChild(recordTxt);
 
   const dayOfDetailsContainer = document.createElement('div');
   dayOfDetailsContainer.id = 'dayOfDetailsContainer';
@@ -71,7 +83,8 @@ function setupDisplayContainers() {
   weekForecastContainer.id = 'weekForecastContainer';
 
   weatherDiv.appendChild(dayOfContainer);
-  gifDiv.appendChild(bgGif);
+  gifDiv.appendChild(bgGifDiv);
+  gifDiv.appendChild(recordDiv);
   weatherDiv.appendChild(gifDiv);
   
  
@@ -81,6 +94,7 @@ function setupDisplayContainers() {
   bodySelect.appendChild(weekForecastContainer);
 
   function setupDayOfDetailsDisplay(measure,stat,unit) {
+
     const measurementContainer = document.createElement('div');
     measurementContainer.id = 'measurementContainer';
 
@@ -89,7 +103,7 @@ function setupDisplayContainers() {
     } else {
       measurementContainer.textContent = `${measure}: ${stat}`;
     }
-  
+
   }
 
   function setupDayOfForecastDisplay(rainchance, icon, temp, high, low) {
@@ -97,13 +111,13 @@ function setupDisplayContainers() {
   }
 
   function setupWeekForecastDisplay(day, icon, rainchance, humidity, temp, high, low) {
-    
+
   }
 }
 
 // displaying data
 // DOM function
-export const displayWeatherData = function(data) {
+export const displayWeatherData = function(data, location) {
 
   let celsius = false;
   const currentTemp = parseInt(data.currentConditions.temp); 
@@ -115,8 +129,14 @@ export const displayWeatherData = function(data) {
   const todayClouds = displayForecast(data,celsius,0).getCloudCoverage();
   const bgGif = document.querySelector('#bgGif');
 
-  function displayDayOf(currentTemp,condition,high,low) {
-    
+  const conditionAndLocation = document.querySelector('#conditionAndLocation');
+  const tempHighLow = document.querySelector('#tempHighLow');
+  const dayDescription = document.querySelector('#dayDescription');
+
+  conditionAndLocation.textContent = currentCondition + " in " + location;
+
+  function displayDayOf() {
+  
   }
 
   function displaySevenDay() {
