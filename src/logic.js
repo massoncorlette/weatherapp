@@ -5,7 +5,7 @@ import { displayWeatherData } from './dom';
 export async function queryForData(selectedLocation) { 
   try {
     const weatherData = await retrieveWeatherData(selectedLocation);
-    displayWeatherData(weatherData, selectedLocation);
+    displayWeatherData(weatherData);
   } catch(error) {
     console.log(error);
   }
@@ -79,13 +79,48 @@ export const displayForecast = function (data, celsius, index) {
   };
 
   function getVisibility() {
-    const visible = data.days[index].visibility;
+    const visible = data.currentConditions.visibility;
     return visible;
   }
 
   function getCloudCoverage() {
-    const cloudy = data.days[index].cloudcover;
+    const cloudy = data.currentConditions.cloudcover;
     return cloudy;
+  }
+
+  function getRainChance(getForecasted) {
+    let rain = null;
+    if (getForecasted) {
+      rain = data.days[index].precipprob;
+    } else {
+      rain = data.currentConditions.precipprob;
+      return rain;
+    }
+  }
+
+  function getHumidity(getForecasted) {
+    let humid = null;
+    if (getForecasted) {
+      humid = data.days[index].humidity;
+    } else {
+      humid = data.currentConditions.humidity;
+      return humid;
+    }
+  }
+
+  function getWind(getForecasted) {
+    let wind = null;
+    if (getForecasted) {
+      wind = data.days[index].windspeed;
+    } else {
+      wind = data.currentConditions.windspeed;
+      return wind;
+    }
+  }
+
+  function getSeverity() {
+    const severe = data.days[index].severerisk;
+    return severe;
   }
 
   return {
@@ -96,6 +131,10 @@ export const displayForecast = function (data, celsius, index) {
     displayDayOfDescription:displayDayOfDescription,
     getVisibility:getVisibility,
     getCloudCoverage:getCloudCoverage,
+    getRainChance:getRainChance,
+    getHumidity:getHumidity,
+    getWind:getWind,
+    getSeverity:getSeverity,
   }
 };
 

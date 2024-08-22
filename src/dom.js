@@ -12,9 +12,6 @@ import cloudSunIcon from './images/cloud-sun.svg'; import glowingRed from './ima
 
 import { displayForecast, storeSevenDayForecast, storeDayOfForecast, queryForData } from "./logic";
 
-//1200 x 300
-//Convert all temps to celsius or a second API request? 
-
 let location = null;
 let bodySelect = document.querySelector('body');
 
@@ -40,20 +37,33 @@ export function initializeApp() {
   }); 
 }
 
+//DOM functions to setup Containers
 function setupDisplayContainers() {
   const weatherDiv = document.createElement('div');
   weatherDiv.id = 'currentWeatherDiv';
 
   const dayOfContainer = document.createElement('div');
   const conditionAndLocation = document.createElement('div');
-  const tempHighLow = document.createElement('div');
+  const tempContainer = document.createElement('div');
+  const tempLow = document.createElement('div');
+  const tempMiddleSection = document.createElement('div');
+  const tempHigh = document.createElement('div');
   const dayDescription = document.createElement('div');
+
   dayOfContainer.id = 'dayOfContainer';
   conditionAndLocation.id = 'conditionAndLocation';
-  tempHighLow.id = 'tempHighLow';
+  tempContainer.id = 'tempContainer';
+  tempLow.id = 'tempLow';
+  tempMiddleSection.id = 'tempMiddleSection';
+  tempHigh.id = 'tempHigh'
   dayDescription.id = 'dayDescription';
+  
+  tempContainer.appendChild(tempLow);
+  tempContainer.appendChild(tempMiddleSection);
+  tempContainer.appendChild(tempHigh);
+
   dayOfContainer.appendChild(conditionAndLocation);
-  dayOfContainer.appendChild(tempHighLow);
+  dayOfContainer.appendChild(tempContainer);
   dayOfContainer.appendChild(dayDescription);
 
   const bgGif = document.createElement('img');
@@ -86,7 +96,6 @@ function setupDisplayContainers() {
   gifDiv.appendChild(bgGifDiv);
   gifDiv.appendChild(recordDiv);
   weatherDiv.appendChild(gifDiv);
-  
  
   bodySelect.appendChild(weatherDiv);
   bodySelect.appendChild(dayOfDetailsContainer);
@@ -99,11 +108,11 @@ function setupDisplayContainers() {
     measurementContainer.id = 'measurementContainer';
 
     if (unit) {
-      measurementContainer.textContent = `${measure}: ${stat} ${unit}`;
+      measurementContainer.textContent = `${measure} + " " + ${stat} + ${unit}`;
     } else {
-      measurementContainer.textContent = `${measure}: ${stat}`;
+      measurementContainer.textContent = `${measure} + " " + ${stat}`;
     }
-
+    return measurementContainer;
   }
 
   function setupDayOfForecastDisplay(rainchance, icon, temp, high, low) {
@@ -113,11 +122,17 @@ function setupDisplayContainers() {
   function setupWeekForecastDisplay(day, icon, rainchance, humidity, temp, high, low) {
 
   }
+  return {
+    setupDayOfDetailsDisplay:setupDayOfDetailsDisplay,
+    setupDayOfForecastDisplay:setupDayOfForecastDisplay,
+    setupWeekForecastDisplay:setupWeekForecastDisplay
+  }
 }
 
-// displaying data
-// DOM function
-export const displayWeatherData = function(data, location) {
+// DOM functions to display Data inside Containers
+export const displayWeatherData = function(data) {
+
+  const locationResolved = data.resolvedAddress;
 
   let celsius = false;
   const currentTemp = parseInt(data.currentConditions.temp); 
@@ -129,31 +144,32 @@ export const displayWeatherData = function(data, location) {
   const todayClouds = displayForecast(data,celsius,0).getCloudCoverage();
   const bgGif = document.querySelector('#bgGif');
 
+  const dayOfDetailsContainer = document.querySelector('#dayOfDetailsContainer');
+  const dayOfForecastContainer = document.querySelector('#dayOfForecastContainer');
+  const weekForecastContainer = document.querySelector('#weekForecastContainer');
+
   const conditionAndLocation = document.querySelector('#conditionAndLocation');
   const tempHighLow = document.querySelector('#tempHighLow');
   const dayDescription = document.querySelector('#dayDescription');
 
-  conditionAndLocation.textContent = currentCondition + " in " + location;
+  conditionAndLocation.textContent = currentCondition + " in " + locationResolved;
 
-  function displayDayOf() {
-  
+
+  function displayDayOf(measure,stat,unit) {
+    const addedMetric = setupDisplayContainers.setupDayOfDetailsDisplay(measure,stat,unit);
+    dayOfDetailsContainer.appendChild(addedMetric);
   }
 
   function displaySevenDay() {
-
-  }
   
-  console.log(currentCondition);
-  console.log(todayHigh);
-  console.log(todayLow);
+  }
 
-
- 
   const gifToDisplay = displayGif(dayOfCondition, currentTemp, todayVisible, todayClouds);
   bgGif.src = gifToDisplay;
 
   storeDayOfForecast(data);
   storeSevenDayForecast(data);
+
 
   // Probably can go ahead and IIFE inside this module instead of having to call them in index
   return {
@@ -162,7 +178,7 @@ export const displayWeatherData = function(data, location) {
   }
 };
 
-function displayGif(condition,temp, visibility,cloudy) {
+function displayGif(condition,temp,visibility,cloudy) {
   if (condition === "snow-showers-day" || condition === "snow") {
     if (cloudy > 85) {
       return overcastSnow;
