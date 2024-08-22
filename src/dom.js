@@ -91,6 +91,14 @@ function setupDisplayContainers() {
     }
   
   }
+
+  function setupDayOfForecastDisplay(rainchance, icon, temp, high, low) {
+
+  }
+
+  function setupWeekForecastDisplay(day, icon, rainchance, humidity, temp, high, low) {
+    
+  }
 }
 
 // displaying data

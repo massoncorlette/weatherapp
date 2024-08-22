@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { getDay } from "date-fns";
 import { displayWeatherData } from './dom';
 
 // dealing with Promise object
@@ -13,8 +13,8 @@ export async function queryForData(selectedLocation) {
 
 // return Promise object
 export async function retrieveWeatherData(selectedLocation) {
-  const date = getCurrentDate();
-  console.log(date);
+  const day = getCurrentDate();
+  console.log(day);
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedLocation}/next7days?iconSet=icons2&key=F9HSLGSNS2LUJYXZA84KV9H2M`;
   
   try {
@@ -31,11 +31,10 @@ export async function retrieveWeatherData(selectedLocation) {
 };
 
 function getCurrentDate() {
-  const currentDate = new Date();
+  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Friday", "Saturday"];
+  const currentDate = getDay(new Date());
 
-  const formattedDate = format(currentDate, 'MM-dd');
-
-  return formattedDate;
+  return daysOfWeek[currentDate];
 };
 
 //Using Index for forecasted days
