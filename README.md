@@ -1,6 +1,8 @@
 # weatherapp
 Focusing on working with API's, asynchronous code, Promise objects
 
+The liveview container switches picture/GIF based upon the current weather condtions. All JSON data from visual crossing.
+
 https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/
 
 
@@ -41,7 +43,6 @@ displayWeatherData(data)
 
 displayGif()
 return GIF based upon condition key-value
-
 
 Layout: Header has logo - search option - C/F switch
 Section 1 has location - current Temp - H/L - conditon

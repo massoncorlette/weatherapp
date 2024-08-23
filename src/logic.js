@@ -36,8 +36,30 @@ function getCurrentDay() {
   return daysOfWeek[currentDate];
 };
 
+export function allDayOfData(data, celsius, index) {
+  const currentTemp = parseInt(data.currentConditions.temp); 
+  const dayOfCondition = data.currentConditions.conditions;
+  const currentCondition = weatherDataFunctions(data,celsius, index).getCurrentCondition();
+  const todayAvg = weatherDataFunctions(data, celsius, index).getAvg();
+  const todayHigh = weatherDataFunctions(data,celsius, index).getHigh();
+  const todayLow = weatherDataFunctions(data,celsius, index).getLow();
+  const todayVisible = weatherDataFunctions(data,celsius, index).getVisibility();
+  const todayClouds = weatherDataFunctions(data,celsius,index).getCloudCoverage();
+
+  return {
+    currentTemp,
+    currentCondition,
+    dayOfCondition,
+    todayAvg,
+    todayHigh,
+    todayLow,
+    todayVisible,
+    todayClouds
+  }
+}
+
 //Using Index for forecasted days
-export const displayForecast = function (data, celsius, index) {
+export const weatherDataFunctions = function (data, celsius, index) {
   function getCurrentCondition() {
     let condition = data.currentConditions.icon;
     return condition;
@@ -73,7 +95,7 @@ export const displayForecast = function (data, celsius, index) {
     }
   };
 
-  function displayDayOfDescription() {
+  function getDayOfDescription() {
     const description = data.days[index].description;
     return description;
   };
@@ -128,7 +150,7 @@ export const displayForecast = function (data, celsius, index) {
     getAvg:getAvg,
     getHigh:getHigh,
     getLow:getLow,
-    displayDayOfDescription:displayDayOfDescription,
+    getDayOfDescription:getDayOfDescription,
     getVisibility:getVisibility,
     getCloudCoverage:getCloudCoverage,
     getRainChance:getRainChance,
@@ -137,6 +159,7 @@ export const displayForecast = function (data, celsius, index) {
     getSeverity:getSeverity,
   }
 };
+
 
 export function storeSevenDayForecast(data) {
   const sevenDayForecast = [];
@@ -152,4 +175,5 @@ export function storeDayOfForecast(data) {
   dayOfForecast.push(data.days[0]);
   return dayOfForecast;
 }
+
 

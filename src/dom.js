@@ -10,7 +10,7 @@ import summerRain from './images/summerrain.gif'; import summerStorm from './ima
 import winterRain from './images/winterrain.gif'; import winterSnow from './images/wintersnow.gif';
 import cloudSunIcon from './images/cloud-sun.svg'; import glowingRed from './images/glowingred.gif';
 
-import { displayForecast, storeSevenDayForecast, storeDayOfForecast, queryForData } from "./logic";
+import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast, queryForData } from "./logic";
 
 let location = null;
 let bodySelect = document.querySelector('body');
@@ -132,17 +132,20 @@ function setupDisplayContainers() {
 // DOM functions to display Data inside Containers
 export const displayWeatherData = function(data) {
 
-  const locationResolved = data.resolvedAddress;
-
   let celsius = false;
-  const currentTemp = parseInt(data.currentConditions.temp); 
-  const currentCondition = data.currentConditions.conditions;
-  const dayOfCondition = displayForecast(data,celsius, 0).getCurrentCondition();
-  const todayHigh = displayForecast(data,celsius, 0).getHigh();
-  const todayLow = displayForecast(data,celsius, 0).getLow();
-  const todayVisible = displayForecast(data,celsius, 0).getVisibility();
-  const todayClouds = displayForecast(data,celsius,0).getCloudCoverage();
+  let getForecastData = allDayOfData(data, celsius, 0);
+  let dayOfCondition = getForecastData.dayOfCondition;
+  let currentCondition = getForecastData.currentCondition;
+  let currentTemp = getForecastData.currentTemp;
+  let todayVisible = getForecastData.todayVisible;
+  let todayClouds = getForecastData.todayClouds;
+
   const bgGif = document.querySelector('#bgGif');
+  const gifToDisplay = displayGif(currentCondition, currentTemp, todayVisible, todayClouds);
+  bgGif.src = gifToDisplay;
+
+  const locationResolved = data.resolvedAddress;
+  conditionAndLocation.textContent = dayOfCondition + " in " + locationResolved;
 
   const dayOfDetailsContainer = document.querySelector('#dayOfDetailsContainer');
   const dayOfForecastContainer = document.querySelector('#dayOfForecastContainer');
@@ -152,9 +155,6 @@ export const displayWeatherData = function(data) {
   const tempHighLow = document.querySelector('#tempHighLow');
   const dayDescription = document.querySelector('#dayDescription');
 
-  conditionAndLocation.textContent = currentCondition + " in " + locationResolved;
-
-
   function displayDayOf(measure,stat,unit) {
     const addedMetric = setupDisplayContainers.setupDayOfDetailsDisplay(measure,stat,unit);
     dayOfDetailsContainer.appendChild(addedMetric);
@@ -163,10 +163,6 @@ export const displayWeatherData = function(data) {
   function displaySevenDay() {
   
   }
-
-  const gifToDisplay = displayGif(dayOfCondition, currentTemp, todayVisible, todayClouds);
-  bgGif.src = gifToDisplay;
-
   storeDayOfForecast(data);
   storeSevenDayForecast(data);
 
