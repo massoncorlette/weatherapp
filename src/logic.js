@@ -43,8 +43,12 @@ export function allDayOfData(data, celsius, index) {
   const todayAvg = weatherDataFunctions(data, celsius, index).getAvg();
   const todayHigh = weatherDataFunctions(data,celsius, index).getHigh();
   const todayLow = weatherDataFunctions(data,celsius, index).getLow();
-  const todayVisible = weatherDataFunctions(data,celsius, index).getVisibility();
+  const currentVisibility = weatherDataFunctions(data,celsius, index).getVisibility();
   const todayClouds = weatherDataFunctions(data,celsius,index).getCloudCoverage();
+  const currentRain = weatherDataFunctions(data,celsius,index).getRainChance();
+  const currentHumidity = weatherDataFunctions(data,celsius,index).getHumidity();
+  const currentWind = weatherDataFunctions(data,celsius,index).getWind();
+  const currentSevere = weatherDataFunctions(data,celsius,index).getSeverity();
 
   return {
     currentTemp,
@@ -53,10 +57,14 @@ export function allDayOfData(data, celsius, index) {
     todayAvg,
     todayHigh,
     todayLow,
-    todayVisible,
-    todayClouds
+    currentVisibility,
+    todayClouds,
+    currentRain,
+    currentHumidity,
+    currentWind,
+    currentSevere
   }
-}
+};
 
 //Using Index for forecasted days
 export const weatherDataFunctions = function (data, celsius, index) {
@@ -145,6 +153,11 @@ export const weatherDataFunctions = function (data, celsius, index) {
     return severe;
   }
 
+  function getFeelsLike() {
+    const feelsLike = data.currentConditions.feelslike;
+    return feelsLike;
+  }
+
   return {
     getCurrentCondition:getCurrentCondition,
     getAvg:getAvg,
@@ -157,6 +170,7 @@ export const weatherDataFunctions = function (data, celsius, index) {
     getHumidity:getHumidity,
     getWind:getWind,
     getSeverity:getSeverity,
+    getFeelsLike:getFeelsLike,
   }
 };
 
@@ -174,6 +188,6 @@ export function storeDayOfForecast(data) {
   const dayOfForecast = [];
   dayOfForecast.push(data.days[0]);
   return dayOfForecast;
-}
+};
 
 

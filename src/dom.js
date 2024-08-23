@@ -102,15 +102,25 @@ function setupDisplayContainers() {
   bodySelect.appendChild(dayOfForecastContainer);
   bodySelect.appendChild(weekForecastContainer);
 
-  function setupDayOfDetailsDisplay(measure,stat,unit) {
+  function resetDisplay(parentElement) {
+    if(parentElement.firstChild) {
+      while (parentElement.children.length > 0) {
+        parentElement.removeChild(parentElement.firstChild);
+      }
+    } else {
+      return;
+    }
+  }  
 
+  function setupDayOfDetailsDisplay(measure,stat,unit) {
+    resetDisplay(dayOfDetailsContainer);
     const measurementContainer = document.createElement('div');
     measurementContainer.id = 'measurementContainer';
 
     if (unit) {
-      measurementContainer.textContent = `${measure} + " " + ${stat} + ${unit}`;
+      measurementContainer.textContent = `${measure} ${stat} ${unit}`;
     } else {
-      measurementContainer.textContent = `${measure} + " " + ${stat}`;
+      measurementContainer.textContent = `${measure} ${stat}`;
     }
     return measurementContainer;
   }
@@ -134,16 +144,22 @@ export const displayWeatherData = function(data) {
 
   let celsius = false;
   let getForecastData = allDayOfData(data, celsius, 0);
+
   let dayOfCondition = getForecastData.dayOfCondition;
   let currentCondition = getForecastData.currentCondition;
-  let currentTemp = getForecastData.currentTemp;
-  let todayVisible = getForecastData.todayVisible;
+  let currentTemp = parseInt(getForecastData.currentTemp);
+  let currentVisibility = parseInt(getForecastData.currentVisibility);
   let todayClouds = getForecastData.todayClouds;
+  let currentRain = getForecastData.currentRain;
+  let currentHumid = getForecastData.currentHumidity;
+  let currentWind = getForecastData.currentWind;
+  let currentSevere = getForecastData.currentSevere;
 
   const bgGif = document.querySelector('#bgGif');
-  const gifToDisplay = displayGif(currentCondition, currentTemp, todayVisible, todayClouds);
+  const gifToDisplay = displayGif(currentCondition, currentTemp, currentVisibility, todayClouds);
   bgGif.src = gifToDisplay;
 
+  const conditionAndLocation = document.querySelector('#conditionAndLocation');
   const locationResolved = data.resolvedAddress;
   conditionAndLocation.textContent = dayOfCondition + " in " + locationResolved;
 
@@ -151,12 +167,17 @@ export const displayWeatherData = function(data) {
   const dayOfForecastContainer = document.querySelector('#dayOfForecastContainer');
   const weekForecastContainer = document.querySelector('#weekForecastContainer');
 
-  const conditionAndLocation = document.querySelector('#conditionAndLocation');
   const tempHighLow = document.querySelector('#tempHighLow');
   const dayDescription = document.querySelector('#dayDescription');
 
   function displayDayOf(measure,stat,unit) {
-    const addedMetric = setupDisplayContainers.setupDayOfDetailsDisplay(measure,stat,unit);
+
+    let addedMetric = null;
+    if (unit) {
+      addedMetric = setupDisplayContainers().setupDayOfDetailsDisplay(measure,stat,unit);
+    } else {
+      addedMetric = setupDisplayContainers().setupDayOfDetailsDisplay(measure,stat,unit);
+    }
     dayOfDetailsContainer.appendChild(addedMetric);
   }
 
@@ -166,6 +187,24 @@ export const displayWeatherData = function(data) {
   storeDayOfForecast(data);
   storeSevenDayForecast(data);
 
+  const rainTxt = "Rain";
+  const percentUnit = "%";
+  displayDayOf(rainTxt,currentRain,percentUnit);
+
+  const humidTxt = "Humidity";
+  displayDayOf(humidTxt,currentHumid,percentUnit);
+
+  const windTxt = "Wind";
+  const windUnit = "KT";
+  displayDayOf(windTxt, currentWind,windUnit);
+
+  const visibleTxt = "Visibility";
+  const visibleUnit = "KM";
+  displayDayOf(visibleTxt, currentVisibility,visibleUnit);
+
+  const severeTxt = "Severe";
+  displayDayOf(severeTxt, currentSevere, percentUnit);
+  
 
   // Probably can go ahead and IIFE inside this module instead of having to call them in index
   return {
