@@ -37,71 +37,74 @@ export function initializeApp() {
   }); 
 }
 
+let loaded = false;
 //DOM functions to setup Containers
 function setupDisplayContainers() {
-  const weatherDiv = document.createElement('div');
-  weatherDiv.id = 'currentWeatherDiv';
-
-  const dayOfContainer = document.createElement('div');
-  const conditionAndLocation = document.createElement('div');
-  const tempContainer = document.createElement('div');
-  const tempLow = document.createElement('div');
-  const tempMiddleSection = document.createElement('div');
-  const tempHigh = document.createElement('div');
-  const dayDescription = document.createElement('div');
-
-  dayOfContainer.id = 'dayOfContainer';
-  conditionAndLocation.id = 'conditionAndLocation';
-  tempContainer.id = 'tempContainer';
-  tempLow.id = 'tempLow';
-  tempMiddleSection.id = 'tempMiddleSection';
-  tempHigh.id = 'tempHigh'
-  dayDescription.id = 'dayDescription';
+  if (!loaded) {
+    loaded = true;
+    const weatherDiv = document.createElement('div');
+    weatherDiv.id = 'currentWeatherDiv';
+    const dayOfContainer = document.createElement('div');
+    const conditionAndLocation = document.createElement('div');
+    const tempContainer = document.createElement('div');
+    const tempLow = document.createElement('div');
+    const tempMiddleSection = document.createElement('div');
+    const tempHigh = document.createElement('div');
+    const dayDescription = document.createElement('div');
   
-  tempContainer.appendChild(tempLow);
-  tempContainer.appendChild(tempMiddleSection);
-  tempContainer.appendChild(tempHigh);
-
-  dayOfContainer.appendChild(conditionAndLocation);
-  dayOfContainer.appendChild(tempContainer);
-  dayOfContainer.appendChild(dayDescription);
-
-  const bgGif = document.createElement('img');
-  bgGif.id = 'bgGif';
-  const bgGifDiv = document.createElement('div');
-  bgGifDiv.id = 'bgGifDiv';
-  bgGifDiv.appendChild(bgGif);
-  const recordGif = document.createElement('img');
-  recordGif.src = glowingRed;
-  recordGif.id = 'recordGif';
-  const gifDiv = document.createElement('div');
-  gifDiv.id = 'gifDiv';
-  const recordDiv = document.createElement('div');
-  recordDiv.id = 'recordDiv';
-  const recordTxt = document.createElement('p');
-  recordTxt.textContent = 'Live View ';
-  recordDiv.appendChild(recordGif);
-  recordDiv.appendChild(recordTxt);
-
-  const dayOfDetailsContainer = document.createElement('div');
-  dayOfDetailsContainer.id = 'dayOfDetailsContainer';
-
-  const dayOfForecastContainer = document.createElement('div');
-  dayOfForecastContainer.id = 'dayOfForecastContainer';
-
-  const weekForecastContainer = document.createElement('div');
-  weekForecastContainer.id = 'weekForecastContainer';
-
-  weatherDiv.appendChild(dayOfContainer);
-  gifDiv.appendChild(bgGifDiv);
-  gifDiv.appendChild(recordDiv);
-  weatherDiv.appendChild(gifDiv);
+    dayOfContainer.id = 'dayOfContainer';
+    conditionAndLocation.id = 'conditionAndLocation';
+    tempContainer.id = 'tempContainer';
+    tempLow.id = 'tempLow';
+    tempMiddleSection.id = 'tempMiddleSection';
+    tempHigh.id = 'tempHigh'
+    dayDescription.id = 'dayDescription';
+    
+    tempContainer.appendChild(tempLow);
+    tempContainer.appendChild(tempMiddleSection);
+    tempContainer.appendChild(tempHigh);
+  
+    dayOfContainer.appendChild(conditionAndLocation);
+    dayOfContainer.appendChild(tempContainer);
+    dayOfContainer.appendChild(dayDescription);
+  
+    const bgGif = document.createElement('img');
+    bgGif.id = 'bgGif';
+    const bgGifDiv = document.createElement('div');
+    bgGifDiv.id = 'bgGifDiv';
+    bgGifDiv.appendChild(bgGif);
+    const recordGif = document.createElement('img');
+    recordGif.src = glowingRed;
+    recordGif.id = 'recordGif';
+    const gifDiv = document.createElement('div');
+    gifDiv.id = 'gifDiv';
+    const recordDiv = document.createElement('div');
+    recordDiv.id = 'recordDiv';
+    const recordTxt = document.createElement('p');
+    recordTxt.textContent = 'Live View';
+    recordDiv.appendChild(recordGif);
+    recordDiv.appendChild(recordTxt);
+  
+    const dayOfDetailsContainer = document.createElement('div');
+    dayOfDetailsContainer.id = 'dayOfDetailsContainer';
+  
+    const dayOfForecastContainer = document.createElement('div');
+    dayOfForecastContainer.id = 'dayOfForecastContainer';
+  
+    const weekForecastContainer = document.createElement('div');
+    weekForecastContainer.id = 'weekForecastContainer';
+  
+    weatherDiv.appendChild(dayOfContainer);
+    gifDiv.appendChild(bgGifDiv);
+    gifDiv.appendChild(recordDiv);
+    weatherDiv.appendChild(gifDiv);
+   
+    bodySelect.appendChild(weatherDiv);
+    bodySelect.appendChild(dayOfDetailsContainer);
+    bodySelect.appendChild(dayOfForecastContainer);
+    bodySelect.appendChild(weekForecastContainer);  
+  }
  
-  bodySelect.appendChild(weatherDiv);
-  bodySelect.appendChild(dayOfDetailsContainer);
-  bodySelect.appendChild(dayOfForecastContainer);
-  bodySelect.appendChild(weekForecastContainer);
-
   function resetDisplay(parentElement) {
     if(parentElement.firstChild) {
       while (parentElement.children.length > 0) {
@@ -110,10 +113,10 @@ function setupDisplayContainers() {
     } else {
       return;
     }
-  }  
+  };  
 
   function setupDayOfDetailsDisplay(measure,stat,unit) {
-    resetDisplay(dayOfDetailsContainer);
+   
     const measurementContainer = document.createElement('div');
     measurementContainer.id = 'measurementContainer';
 
@@ -123,28 +126,29 @@ function setupDisplayContainers() {
       measurementContainer.textContent = `${measure} ${stat}`;
     }
     return measurementContainer;
-  }
+  };
 
   function setupDayOfForecastDisplay(rainchance, icon, temp, high, low) {
 
-  }
+  };
 
   function setupWeekForecastDisplay(day, icon, rainchance, humidity, temp, high, low) {
 
-  }
+  };
+
   return {
     setupDayOfDetailsDisplay:setupDayOfDetailsDisplay,
     setupDayOfForecastDisplay:setupDayOfForecastDisplay,
-    setupWeekForecastDisplay:setupWeekForecastDisplay
+    setupWeekForecastDisplay:setupWeekForecastDisplay,
+    resetDisplay:resetDisplay
   }
-}
+};
 
 // DOM functions to display Data inside Containers
 export const displayWeatherData = function(data) {
 
   let celsius = false;
   let getForecastData = allDayOfData(data, celsius, 0);
-
   let dayOfCondition = getForecastData.dayOfCondition;
   let currentCondition = getForecastData.currentCondition;
   let currentTemp = parseInt(getForecastData.currentTemp);
@@ -170,6 +174,9 @@ export const displayWeatherData = function(data) {
   const tempHighLow = document.querySelector('#tempHighLow');
   const dayDescription = document.querySelector('#dayDescription');
 
+  // clearing containers
+  setupDisplayContainers().resetDisplay(dayOfDetailsContainer);
+
   function displayDayOf(measure,stat,unit) {
 
     let addedMetric = null;
@@ -186,6 +193,7 @@ export const displayWeatherData = function(data) {
   }
   storeDayOfForecast(data);
   storeSevenDayForecast(data);
+  
 
   const rainTxt = "Rain";
   const percentUnit = "%";
