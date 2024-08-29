@@ -7,7 +7,7 @@
 }
 
 body {
-  height: 130vh;
+  height: 140vh;
   margin: 0%;
   max-width: 100%;
   display: grid;
@@ -96,17 +96,25 @@ body {
 
 #dayOfDetailsContainer {
   grid-column: span 4;
-  grid-row: 10/12;
+  grid-row: 10/11;
   display: flex;
   flex: 1;
 }
 
 #dayOfForecastContainer {
   grid-column: span 4;
-  grid-row: 12/15;
+  grid-row: 11/15;
   display: grid;
   grid-template-columns: repeat(24, 1fr);
   grid-template-rows: repeat(4, 1fr);
+}
+
+.scroll {
+  margin: 4px, 4px;
+  padding: 4px;
+  background-color: var(--primary-color);
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 #measurementContainerHour {

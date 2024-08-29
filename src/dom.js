@@ -95,6 +95,7 @@ function setupDisplayContainers() {
   
     const dayOfForecastContainer = document.createElement('div');
     dayOfForecastContainer.id = 'dayOfForecastContainer';
+    dayOfForecastContainer.classList.add('scroll');
   
     const weekForecastContainer = document.createElement('div');
     weekForecastContainer.id = 'weekForecastContainer';
@@ -149,7 +150,10 @@ function setupDisplayContainers() {
     }
     const iconContainer = document.createElement('div');
     iconContainer.id = 'iconContainer';
-    iconContainer.src = icon;
+    const iconSvg = document.createElement('img');
+    iconSvg.id = 'iconSvg';
+    iconSvg.src = icon;
+    iconContainer.appendChild(iconSvg);
     const currentTempContainer = document.createElement('div');
     currentTempContainer.id = 'currentTempContainer';
     currentTempContainer.innerText = temp;
@@ -191,6 +195,7 @@ export const displayWeatherData = function(data) {
 
   // clearing containers
   setupDisplayContainers().resetDisplay(dayOfDetailsContainer);
+  setupDisplayContainers().resetDisplay(dayOfForecastContainer);
   setupDisplayContainers().resetDisplay(conditionAndLocation);
   setupDisplayContainers().resetDisplay(conditionLow);
   setupDisplayContainers().resetDisplay(conditionAvg);
@@ -263,7 +268,7 @@ export const displayWeatherData = function(data) {
     const parsedTime = parse(hourData.datetime, 'HH:mm:ss', new Date());
 
     let displayTime = format(parsedTime, 'hh:mm:ss a');
-    displayHourly(displayTime,hourData.temp,hourData.precipprob,hourData.conditions);
+    displayHourly(displayTime,hourData.temp,hourData.precipprob,hourData.icon);
   }
   const rainTxt = "Rain";
   const percentUnit = "%";
@@ -374,8 +379,10 @@ function displayGif(condition,temp,visibility,cloudy) {
     }
   } else if (condition === "fog") {
     return landfog;
-  
-  } else if (condition === "partly-cloudy-night" || condition === "clear-night") {
+  } else if (condition === "cloudy") {
+    return landgrey;
+  }
+  else if (condition === "partly-cloudy-night" || condition === "clear-night") {
     return landnight;
   } else if (condition === "partly-cloudy-day" || condition === "clear-day" || condition === "windy") {
     if (temp < 70 && temp > 50) {
