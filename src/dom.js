@@ -16,7 +16,7 @@ import RainDayIcon from './WeatherIcons/rainy-2.svg'; import FogIcon from './Wea
 import CloudyDayIcon from './WeatherIcons/cloudy-day-1.svg'; import CloudyNightIcon from './WeatherIcons/cloudy-night-1.svg';
 import ClearDayIcon from './WeatherIcons/day.svg'; import ClearNightIcon from './WeatherIcons/night.svg';
 import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast, queryForData } from "./logic";
-
+import { format } from "date-fns";
 let location = null;
 let bodySelect = document.querySelector('body');
 
@@ -133,19 +133,33 @@ function setupDisplayContainers() {
     return measurementContainer;
   };
 
-  function setupDayOfForecastDisplay(hour,rainchance,temp,icon) {
+  function setupDayOfForecastDisplay(hour,temp,icon,rainchance) {
 
     const measurementContainerHour = document.createElement('div');
     measurementContainerHour.id = 'measurementContainerHour';
 
     const hourContainer = document.createElement('div');
     hourContainer.id = 'hourContainer';
-    const percipContainer = document.createElement('div');
-    percipContainer.id = 'precipContainer';
+    hourContainer.innerText = hour;
+    const precipContainer = document.createElement('div');
+
+    precipContainer.id = 'precipContainer';
+    if (rainchance) {
+      precipContainer.innerText = rainchance;
+    }
     const iconContainer = document.createElement('div');
     iconContainer.id = 'iconContainer';
+    iconContainer.src = icon;
     const currentTempContainer = document.createElement('div');
     currentTempContainer.id = 'currentTempContainer';
+    currentTempContainer.innerText = temp;
+
+    measurementContainerHour.appendChild(hourContainer);
+    measurementContainerHour.appendChild(precipContainer);
+    measurementContainerHour.appendChild(iconContainer);
+    measurementContainerHour.appendChild(currentTempContainer);
+
+    return measurementContainerHour;
   };
 
   function setupWeekForecastDisplay(day, icon, rainchance, humidity, temp, high, low) {
@@ -233,12 +247,21 @@ export const displayWeatherData = function(data) {
     dayOfDetailsContainer.appendChild(addedMetric);
   }
 
-  function displaySevenDay(hour,precip,temp,snowBoolean) {
-  
+  function displayHourly(hour,temp,rainchance,condition) {
+    const addedIcon = displayWeatherIcon(condition);
+    const addedHourlyMetric = setupDisplayContainers().setupDayOfForecastDisplay(hour,temp,addedIcon,rainchance);
+
+    dayOfForecastContainer.appendChild(addedHourlyMetric);
   }
   storeDayOfForecast(data);
   storeSevenDayForecast(data);
 
+  // IIFE's
+  for (let i=0; i<24;i++) {
+    let getHourData = allDayOfData(data,celsius,i);
+    let displayTime = format(getHourData, 'hh');
+    // displayHourly(displayTime,getHourData.)
+  }
   const rainTxt = "Rain";
   const percentUnit = "%";
   displayDayOf(rainTxt,currentRain,percentUnit);
@@ -257,15 +280,13 @@ export const displayWeatherData = function(data) {
   const severeTxt = "Severe";
   displayDayOf(severeTxt, currentSevere, percentUnit);
   
-
-  // Probably can go ahead and IIFE inside this module instead of having to call them in index
   return {
     displayDayOf:displayDayOf,
-    displaySevenDay:displaySevenDay,
+    displayHourly:displayHourly,
   }
 };
 
-function getWeatherDescription(condition) {
+function displayWeatherIcon(condition) {
   switch (condition) {
     case "snow":
       return SnowIcon;

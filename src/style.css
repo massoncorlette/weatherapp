@@ -104,6 +104,14 @@ body {
 #dayOfForecastContainer {
   grid-column: span 4;
   grid-row: 12/15;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#measurementContainerHour {
+  display: grid;
+  grid-template-columns: repeat(10,10%);
+  grid-template-rows: repeat(10,10%);
 }
 
 #weekForecastContainer {
