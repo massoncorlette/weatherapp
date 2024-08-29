@@ -147,11 +147,33 @@ function setupDisplayContainers() {
 // DOM functions to display Data inside Containers
 export const displayWeatherData = function(data) {
 
+  const conditionAndLocation = document.querySelector('#conditionAndLocation');
+  const conditionLow = document.querySelector('#tempLow');
+  const conditionAvg = document.querySelector('#tempMiddleSection');
+  const conditionHigh = document.querySelector('#tempHigh');
+  const dayOfContainer = document.querySelector('#dayOfContainer');
+  const dayOfDetailsContainer = document.querySelector('#dayOfDetailsContainer');
+  const dayOfForecastContainer = document.querySelector('#dayOfForecastContainer');
+  const weekForecastContainer = document.querySelector('#weekForecastContainer');
+
+  const tempHighLow = document.querySelector('#tempHighLow');
+  const dayDescription = document.querySelector('#dayDescription');
+
+  // clearing containers
+  setupDisplayContainers().resetDisplay(dayOfDetailsContainer);
+  setupDisplayContainers().resetDisplay(conditionAndLocation);
+  setupDisplayContainers().resetDisplay(conditionLow);
+  setupDisplayContainers().resetDisplay(conditionAvg);
+  setupDisplayContainers().resetDisplay(conditionHigh);
+
   let celsius = false;
   let getForecastData = allDayOfData(data, celsius, 0);
   let dayOfCondition = getForecastData.dayOfCondition;
   let currentCondition = getForecastData.currentCondition;
   let currentTemp = parseInt(getForecastData.currentTemp);
+  let tempLow = getForecastData.todayLow;
+  let tempAvg = getForecastData.todayAvg;
+  let tempHigh = getForecastData.todayHigh;
   let currentVisibility = parseInt(getForecastData.currentVisibility);
   let todayClouds = getForecastData.todayClouds;
   let currentRain = getForecastData.currentRain;
@@ -163,19 +185,25 @@ export const displayWeatherData = function(data) {
   const gifToDisplay = displayGif(currentCondition, currentTemp, currentVisibility, todayClouds);
   bgGif.src = gifToDisplay;
 
-  const conditionAndLocation = document.querySelector('#conditionAndLocation');
+  // dayOfContainer
   const locationResolved = data.resolvedAddress;
   conditionAndLocation.textContent = dayOfCondition + " in " + locationResolved;
 
-  const dayOfDetailsContainer = document.querySelector('#dayOfDetailsContainer');
-  const dayOfForecastContainer = document.querySelector('#dayOfForecastContainer');
-  const weekForecastContainer = document.querySelector('#weekForecastContainer');
+  const conditionLowDiv = document.createElement('div');
+  conditionLowDiv.textContent = tempLow + " L°";
+  conditionLow.appendChild(conditionLowDiv);
 
-  const tempHighLow = document.querySelector('#tempHighLow');
-  const dayDescription = document.querySelector('#dayDescription');
+  let avgTxt = document.createElement("div");
+  let tempTxt = document.createElement("div");
+  avgTxt.textContent = "Avg";
+  tempTxt.textContent = tempAvg + " °"
+  conditionAvg.appendChild(avgTxt);
+  conditionAvg.appendChild(tempTxt);
+  
+  const conditionHighDiv = document.createElement('div');
+  conditionHighDiv.textContent = tempHigh + " H°";
+  conditionHigh.appendChild(conditionHighDiv);
 
-  // clearing containers
-  setupDisplayContainers().resetDisplay(dayOfDetailsContainer);
 
   function displayDayOf(measure,stat,unit) {
 
