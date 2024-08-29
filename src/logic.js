@@ -36,7 +36,7 @@ function getCurrentDay() {
   return daysOfWeek[currentDate];
 };
 
-export function allDayOfData(data, celsius, index) {
+export function allDayOfData(data, celsius, index, indexforhour) {
   const currentTemp = parseInt(data.currentConditions.temp); 
   const dayOfCondition = data.currentConditions.conditions;
   const currentCondition = weatherDataFunctions(data,celsius, index).getCurrentCondition();
@@ -49,6 +49,7 @@ export function allDayOfData(data, celsius, index) {
   const currentHumidity = weatherDataFunctions(data,celsius,index).getHumidity();
   const currentWind = weatherDataFunctions(data,celsius,index).getWind();
   const currentSevere = weatherDataFunctions(data,celsius,index).getSeverity();
+  const dayOfHoursData = weatherDataFunctions(data,celsius,index).getHoursData(indexforhour);
 
   return {
     currentTemp,
@@ -62,7 +63,8 @@ export function allDayOfData(data, celsius, index) {
     currentRain,
     currentHumidity,
     currentWind,
-    currentSevere
+    currentSevere,
+    dayOfHoursData
   }
 };
 
@@ -158,6 +160,11 @@ export const weatherDataFunctions = function (data, celsius, index) {
     return feelsLike;
   }
 
+  function getHoursData(index) {
+    const hoursData = data.days[0].hours[index];
+    return hoursData;
+  }
+
   return {
     getCurrentCondition:getCurrentCondition,
     getAvg:getAvg,
@@ -171,6 +178,7 @@ export const weatherDataFunctions = function (data, celsius, index) {
     getWind:getWind,
     getSeverity:getSeverity,
     getFeelsLike:getFeelsLike,
+    getHoursData:getHoursData,
   }
 };
 

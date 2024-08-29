@@ -16,7 +16,7 @@ import RainDayIcon from './WeatherIcons/rainy-2.svg'; import FogIcon from './Wea
 import CloudyDayIcon from './WeatherIcons/cloudy-day-1.svg'; import CloudyNightIcon from './WeatherIcons/cloudy-night-1.svg';
 import ClearDayIcon from './WeatherIcons/day.svg'; import ClearNightIcon from './WeatherIcons/night.svg';
 import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast, queryForData } from "./logic";
-import { format } from "date-fns";
+import { format,parse } from "date-fns";
 let location = null;
 let bodySelect = document.querySelector('body');
 
@@ -258,9 +258,12 @@ export const displayWeatherData = function(data) {
 
   // IIFE's
   for (let i=0; i<24;i++) {
-    let getHourData = allDayOfData(data,celsius,i);
-    let displayTime = format(getHourData, 'hh');
-    // displayHourly(displayTime,getHourData.)
+    let getHourData = allDayOfData(data,celsius,i,i);
+    let hourData = getHourData.dayOfHoursData;
+    const parsedTime = parse(hourData.datetime, 'HH:mm:ss', new Date());
+
+    let displayTime = format(parsedTime, 'hh:mm:ss a');
+    displayHourly(displayTime,hourData.temp,hourData.precipprob,hourData.conditions);
   }
   const rainTxt = "Rain";
   const percentUnit = "%";
