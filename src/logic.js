@@ -160,8 +160,8 @@ export const weatherDataFunctions = function (data, celsius, index) {
     return feelsLike;
   }
 
-  function getHoursData(index) {
-    const hoursData = data.days[0].hours[index];
+  function getHoursData(indexforhour) {
+    const hoursData = data.days[0].hours[indexforhour];
     return hoursData;
   }
 

@@ -258,7 +258,7 @@ export const displayWeatherData = function(data) {
 
   // IIFE's
   for (let i=0; i<24;i++) {
-    let getHourData = allDayOfData(data,celsius,i,i);
+    let getHourData = allDayOfData(data,celsius,0,i);
     let hourData = getHourData.dayOfHoursData;
     const parsedTime = parse(hourData.datetime, 'HH:mm:ss', new Date());
 
