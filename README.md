@@ -5,6 +5,12 @@ The liveview container switches picture/GIF based upon the current weather condt
 
 https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/
 
+Animated SVG Weather Icons
+The works contained in this archive were created by amCharts (https://www.amcharts.com/)
+and is licensed under Creative Commons Attribution 4.0 International Public License:
+
+https://creativecommons.org/licenses/by/4.0/
+
 
 // logic
 

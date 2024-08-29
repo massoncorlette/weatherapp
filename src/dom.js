@@ -10,6 +10,11 @@ import summerRain from './images/summerrain.gif'; import summerStorm from './ima
 import winterRain from './images/winterrain.gif'; import winterSnow from './images/wintersnow.gif';
 import cloudSunIcon from './images/cloud-sun.svg'; import glowingRed from './images/glowingred.gif';
 
+import SnowIcon from './WeatherIcons/snowy-6.svg'; import SnowDayIcon from './WeatherIcons/snowy-2.svg';
+import ThunderstormsIcon from './WeatherIcons/thunder.svg'; import RainIcon from './WeatherIcons/rainy-5.svg';
+import RainDayIcon from './WeatherIcons/rainy-2.svg'; import FogIcon from './WeatherIcons/cloudy.svg';
+import CloudyDayIcon from './WeatherIcons/cloudy-day-1.svg'; import CloudyNightIcon from './WeatherIcons/cloudy-night-1.svg';
+import ClearDayIcon from './WeatherIcons/day.svg'; import ClearNightIcon from './WeatherIcons/night.svg';
 import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast, queryForData } from "./logic";
 
 let location = null;
@@ -128,8 +133,19 @@ function setupDisplayContainers() {
     return measurementContainer;
   };
 
-  function setupDayOfForecastDisplay(rainchance, icon, temp, high, low) {
+  function setupDayOfForecastDisplay(hour,rainchance,temp,icon) {
 
+    const measurementContainerHour = document.createElement('div');
+    measurementContainerHour.id = 'measurementContainerHour';
+
+    const hourContainer = document.createElement('div');
+    hourContainer.id = 'hourContainer';
+    const percipContainer = document.createElement('div');
+    percipContainer.id = 'precipContainer';
+    const iconContainer = document.createElement('div');
+    iconContainer.id = 'iconContainer';
+    const currentTempContainer = document.createElement('div');
+    currentTempContainer.id = 'currentTempContainer';
   };
 
   function setupWeekForecastDisplay(day, icon, rainchance, humidity, temp, high, low) {
@@ -166,6 +182,7 @@ export const displayWeatherData = function(data) {
   setupDisplayContainers().resetDisplay(conditionAvg);
   setupDisplayContainers().resetDisplay(conditionHigh);
 
+  // getting all 'current' weatherData
   let celsius = false;
   let getForecastData = allDayOfData(data, celsius, 0);
   let dayOfCondition = getForecastData.dayOfCondition;
@@ -181,6 +198,7 @@ export const displayWeatherData = function(data) {
   let currentWind = getForecastData.currentWind;
   let currentSevere = getForecastData.currentSevere;
 
+  // gifContainer
   const bgGif = document.querySelector('#bgGif');
   const gifToDisplay = displayGif(currentCondition, currentTemp, currentVisibility, todayClouds);
   bgGif.src = gifToDisplay;
@@ -204,7 +222,6 @@ export const displayWeatherData = function(data) {
   conditionHighDiv.textContent = tempHigh + " H°";
   conditionHigh.appendChild(conditionHighDiv);
 
-
   function displayDayOf(measure,stat,unit) {
 
     let addedMetric = null;
@@ -216,12 +233,11 @@ export const displayWeatherData = function(data) {
     dayOfDetailsContainer.appendChild(addedMetric);
   }
 
-  function displaySevenDay() {
+  function displaySevenDay(hour,precip,temp,snowBoolean) {
   
   }
   storeDayOfForecast(data);
   storeSevenDayForecast(data);
-  
 
   const rainTxt = "Rain";
   const percentUnit = "%";
@@ -248,6 +264,45 @@ export const displayWeatherData = function(data) {
     displaySevenDay:displaySevenDay,
   }
 };
+
+function getWeatherDescription(condition) {
+  switch (condition) {
+    case "snow":
+      return SnowIcon;
+    case "snow-showers-day":
+      return SnowDayIcon;
+    case "snow-showers-night":
+      return SnowIcon;
+    case "thunder-rain":
+      return ThunderstormsIcon;
+    case "thunder-showers-day":
+      return ThunderstormsIcon;
+    case "thunder-showers-night":
+      return ThunderstormsIcon;
+    case "rain":
+      return RainIcon;
+    case "showers-day":
+      return RainDayIcon;
+    case "showers-night":
+      return RainIcon;
+    case "fog":
+      return FogIcon;
+    case "wind":
+      return FogIcon;
+    case "cloudy":
+      return FogIcon;
+    case "partly-cloudy-day":
+      return CloudyDayIcon;
+    case "partly-cloudy-night":
+      return CloudyNightIcon;
+    case "clear-day":
+      return ClearDayIcon;
+    case "clear-night":
+      return ClearNightIcon;
+    default:
+      return CloudyDayIcon;
+  }
+}
 
 function displayGif(condition,temp,visibility,cloudy) {
   if (condition === "snow-showers-day" || condition === "snow") {
