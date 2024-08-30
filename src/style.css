@@ -102,27 +102,39 @@ body {
 }
 
 #dayOfForecastContainer {
-  grid-column: span 4;
   grid-row: 11/15;
-  display: grid;
-  grid-template-columns: repeat(24, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-column: span 4;
+  display:flex;
+  background:var(--primary-color);
+  overflow-y:hidden;
+  overflow-x:auto;
+  gap: 10px;                         
+  padding: 10px;                   
+  white-space: nowrap;  
 }
 
 .scroll {
   margin: 4px, 4px;
   padding: 4px;
   background-color: var(--primary-color);
-  overflow-x: auto;
-  overflow-y: hidden;
 }
 
 #measurementContainerHour {
-  grid-column: span 1;
-  grid-row: span 4;
-  display: grid;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  justify-content: space-around;
+}
 
+#hourContainer, #precipContainer, #iconContainer, #currentTempContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#precipContainer {
+  height: 5%;
 }
 
 #weekForecastContainer {
