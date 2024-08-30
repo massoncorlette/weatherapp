@@ -1,4 +1,4 @@
-import { getDay } from "date-fns";
+import { getDay, addDays, format } from "date-fns";
 import { displayWeatherData } from './dom';
 
 // dealing with Promise object
@@ -29,11 +29,18 @@ export async function retrieveWeatherData(selectedLocation) {
   }
 };
 
-function getCurrentDay() {
-  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Friday", "Saturday"];
+export function getCurrentDay() {
   const currentDate = getDay(new Date());
+  const orderedWeek = [];
+  
+  for (let i = 0; i < 7; i++) {
+    const nextDate = addDays(currentDate, i);
+    
+    const dayOfWeek = format(nextDate, 'EEEE'); 
 
-  return daysOfWeek[currentDate];
+    orderedWeek.push(dayOfWeek)
+  };
+  return orderedWeek;
 };
 
 export function allDayOfData(data, celsius, index, indexforhour) {
@@ -46,7 +53,9 @@ export function allDayOfData(data, celsius, index, indexforhour) {
   const currentVisibility = weatherDataFunctions(data,celsius, index).getVisibility();
   const todayClouds = weatherDataFunctions(data,celsius,index).getCloudCoverage();
   const currentRain = weatherDataFunctions(data,celsius,index).getRainChance();
+  const dayOfRain = weatherDataFunctions(data,celsius,index).getRainChance(true);
   const currentHumidity = weatherDataFunctions(data,celsius,index).getHumidity();
+  const dayOfHumidity = weatherDataFunctions(data,celsius,index).getHumidity(true);
   const currentWind = weatherDataFunctions(data,celsius,index).getWind();
   const currentSevere = weatherDataFunctions(data,celsius,index).getSeverity();
   const dayOfHoursData = weatherDataFunctions(data,celsius,index).getHoursData(indexforhour);
@@ -64,7 +73,9 @@ export function allDayOfData(data, celsius, index, indexforhour) {
     currentHumidity,
     currentWind,
     currentSevere,
-    dayOfHoursData
+    dayOfHoursData,
+    dayOfRain,
+    dayOfHumidity
   }
 };
 

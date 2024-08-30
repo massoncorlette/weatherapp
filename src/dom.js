@@ -15,7 +15,7 @@ import ThunderstormsIcon from './WeatherIcons/thunder.svg'; import RainIcon from
 import RainDayIcon from './WeatherIcons/rainy-2.svg'; import FogIcon from './WeatherIcons/cloudy.svg';
 import CloudyDayIcon from './WeatherIcons/cloudy-day-1.svg'; import CloudyNightIcon from './WeatherIcons/cloudy-night-1.svg';
 import ClearDayIcon from './WeatherIcons/day.svg'; import ClearNightIcon from './WeatherIcons/night.svg';
-import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast, queryForData } from "./logic";
+import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast, queryForData, getCurrentDay } from "./logic";
 import { format,parse } from "date-fns";
 let location = null;
 let bodySelect = document.querySelector('body');
@@ -137,7 +137,7 @@ function setupDisplayContainers() {
   function setupDayOfForecastDisplay(hour,temp,icon,rainchance) {
 
     const measurementContainerHour = document.createElement('div');
-    measurementContainerHour.id = 'measurementContainerHour';
+    measurementContainerHour.classList.add('measurementContainerHour');
 
     const hourContainer = document.createElement('div');
     hourContainer.id = 'hourContainer';
@@ -166,8 +166,55 @@ function setupDisplayContainers() {
     return measurementContainerHour;
   };
 
-  function setupWeekForecastDisplay(day, icon, rainchance, humidity, temp, high, low) {
+  function setupWeekForecastDisplay(day, icon, rainchance, humidity, avg, high, low) {
 
+    const measurementContainerWeekDay = document.createElement('div');
+    measurementContainerWeekDay.classList.add( 'measurementContainerWeekDay');
+
+
+    const daytxt = document.createElement('p');
+    daytxt.innerText = day;
+    const dayContainer = document.createElement('div');
+    dayContainer.classList.add('dayContainer');
+    dayContainer.appendChild(daytxt);
+
+    const iconContainer = document.createElement('div');
+    const iconSvg = document.createElement('img');
+    iconSvg.id = 'iconSvgDay';
+    iconSvg.src = icon;
+
+    const rainContainer = document.createElement('div');
+    rainContainer.innerText = rainchance;
+    const humidContainer = document.createElement('div');
+    humidContainer.innerText = humidity;
+    const lowContainer = document.createElement('div');
+    lowContainer.innerText = low;
+    const avgContainer = document.createElement('div');
+    avgContainer.innerText = avg;
+    const highContainer = document.createElement('div');
+    highContainer.innerText = high;
+
+    iconContainer.appendChild(iconSvg);
+
+    const className = 'dayStat';
+
+    dayContainer.classList.add(className);
+    iconContainer.classList.add(className);
+    rainContainer.classList.add(className);
+    humidContainer.classList.add(className);
+    lowContainer.classList.add(className);
+    avgContainer.classList.add(className);
+    highContainer.classList.add(className);
+
+    measurementContainerWeekDay.appendChild(dayContainer);
+    measurementContainerWeekDay.appendChild(iconContainer);
+    measurementContainerWeekDay.appendChild(rainContainer);
+    measurementContainerWeekDay.appendChild(humidContainer);
+    measurementContainerWeekDay.appendChild(lowContainer);
+    measurementContainerWeekDay.appendChild(avgContainer);
+    measurementContainerWeekDay.appendChild(highContainer);
+
+    return measurementContainerWeekDay;
   };
 
   return {
@@ -200,6 +247,7 @@ export const displayWeatherData = function(data) {
   setupDisplayContainers().resetDisplay(conditionLow);
   setupDisplayContainers().resetDisplay(conditionAvg);
   setupDisplayContainers().resetDisplay(conditionHigh);
+  setupDisplayContainers().resetDisplay(weekForecastContainer);
 
   // getting all 'current' weatherData
   let celsius = false;
@@ -258,6 +306,13 @@ export const displayWeatherData = function(data) {
 
     dayOfForecastContainer.appendChild(addedHourlyMetric);
   }
+
+  function displayWeekly(day,rainchance,humidity,low,avg,high,condition) {
+    const addedIcon = displayWeatherIcon(condition);
+    const addedWeeklyMetric = setupDisplayContainers().setupWeekForecastDisplay(day,addedIcon,rainchance,humidity,avg,high,low);
+
+    weekForecastContainer.appendChild(addedWeeklyMetric);
+  }
   storeDayOfForecast(data);
   storeSevenDayForecast(data);
 
@@ -269,6 +324,13 @@ export const displayWeatherData = function(data) {
 
     let displayTime = format(parsedTime, 'hh:mm:ss a');
     displayHourly(displayTime,hourData.temp,hourData.precipprob,hourData.icon);
+  }
+  const getOrderedDaysOfWeek = getCurrentDay();
+  for (let i=0;i<7;i++) {
+    let getDayData = allDayOfData(data,celsius,i);
+    let dayOfWeek = getOrderedDaysOfWeek[i];
+
+    displayWeekly(dayOfWeek,getDayData.dayOfRain,getDayData.dayOfHumidity,getDayData.todayLow,getDayData.todayAvg,getDayData.todayHigh);
   }
   const rainTxt = "Rain";
   const percentUnit = "%";
