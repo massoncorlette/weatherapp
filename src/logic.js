@@ -48,7 +48,8 @@ export function getCurrentDay() {
 export function allDayOfData(data, celsius, index, indexforhour) {
   const currentTemp = parseInt(data.currentConditions.temp); 
   const dayOfCondition = data.currentConditions.conditions;
-  const currentCondition = weatherDataFunctions(data,celsius, index).getCurrentCondition();
+  const currentCondition = data.currentConditions.icon;
+  const forecastCondition = weatherDataFunctions(data,celsius, index).getCurrentCondition(true);
   const todayAvg = weatherDataFunctions(data, celsius, index).getAvg();
   const todayHigh = weatherDataFunctions(data,celsius, index).getHigh();
   const todayLow = weatherDataFunctions(data,celsius, index).getLow();
@@ -64,8 +65,9 @@ export function allDayOfData(data, celsius, index, indexforhour) {
 
   return {
     currentTemp,
-    currentCondition,
+    forecastCondition,
     dayOfCondition,
+    currentCondition,
     todayAvg,
     todayHigh,
     todayLow,
@@ -83,8 +85,13 @@ export function allDayOfData(data, celsius, index, indexforhour) {
 
 //Using Index for forecasted days
 export const weatherDataFunctions = function (data, celsius, index) {
-  function getCurrentCondition() {
-    let condition = data.currentConditions.icon;
+  function getCurrentCondition(getForecasted) {
+    let condition = null;
+    if(getForecasted) {
+      condition = data.days[index].icon;
+    } else {
+      condition = data.currentConditions.icon;
+    }
     return condition;
   };
 
@@ -139,8 +146,8 @@ export const weatherDataFunctions = function (data, celsius, index) {
       rain = data.days[index].precipprob;
     } else {
       rain = data.currentConditions.precipprob;
-      return rain;
     }
+    return rain;
   }
 
   function getHumidity(getForecasted) {
@@ -149,8 +156,8 @@ export const weatherDataFunctions = function (data, celsius, index) {
       humid = data.days[index].humidity;
     } else {
       humid = data.currentConditions.humidity;
-      return humid;
     }
+    return humid;
   }
 
   function getWind(getForecasted) {
@@ -159,8 +166,8 @@ export const weatherDataFunctions = function (data, celsius, index) {
       wind = data.days[index].windspeed;
     } else {
       wind = data.currentConditions.windspeed;
-      return wind;
     }
+    return wind;
   }
 
   function getSeverity() {

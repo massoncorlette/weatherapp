@@ -309,7 +309,7 @@ export const displayWeatherData = function(data) {
 
   function displayWeekly(day,rainchance,humidity,low,avg,high,condition) {
     const addedIcon = displayWeatherIcon(condition);
-    const addedWeeklyMetric = setupDisplayContainers().setupWeekForecastDisplay(day,addedIcon,rainchance,humidity,avg,high,low);
+    const addedWeeklyMetric = setupDisplayContainers().setupWeekForecastDisplay(day,addedIcon,rainchance,humidity,avg,high,low,condition);
 
     weekForecastContainer.appendChild(addedWeeklyMetric);
   }
@@ -328,9 +328,10 @@ export const displayWeatherData = function(data) {
   const getOrderedDaysOfWeek = getCurrentDay();
   for (let i=0;i<7;i++) {
     let getDayData = allDayOfData(data,celsius,i);
+    console.log(getDayData);
     let dayOfWeek = getOrderedDaysOfWeek[i];
 
-    displayWeekly(dayOfWeek,getDayData.dayOfRain,getDayData.dayOfHumidity,getDayData.todayLow,getDayData.todayAvg,getDayData.todayHigh);
+    displayWeekly(dayOfWeek,getDayData.dayOfRain,getDayData.dayOfHumidity,getDayData.todayLow,getDayData.todayAvg,getDayData.todayHigh,getDayData.forecastCondition);
   }
   const rainTxt = "Rain";
   const percentUnit = "%";
