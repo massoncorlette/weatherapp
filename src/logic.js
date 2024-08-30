@@ -30,13 +30,15 @@ export async function retrieveWeatherData(selectedLocation) {
 };
 
 export function getCurrentDay() {
-  const currentDate = getDay(new Date());
+  const currentDate = new Date();
+  console.log(currentDate);
   const orderedWeek = [];
   
   for (let i = 0; i < 7; i++) {
-    const nextDate = addDays(currentDate, i);
-    
+    const nextDate = addDays(currentDate, i + 1);
+    console.log(nextDate);
     const dayOfWeek = format(nextDate, 'EEEE'); 
+    console.log(dayOfWeek);
 
     orderedWeek.push(dayOfWeek)
   };
