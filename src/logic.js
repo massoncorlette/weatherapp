@@ -31,7 +31,6 @@ export async function retrieveWeatherData(selectedLocation) {
 
 export function getCurrentDay() {
   const currentDate = new Date();
-  console.log(currentDate);
   const orderedWeek = [];
   
   for (let i = 0; i < 7; i++) {
@@ -50,15 +49,15 @@ export function allDayOfData(data, celsius, index, indexforhour) {
   const dayOfCondition = data.currentConditions.conditions;
   const currentCondition = data.currentConditions.icon;
   const forecastCondition = weatherDataFunctions(data,celsius, index).getCurrentCondition(true);
-  const todayAvg = weatherDataFunctions(data, celsius, index).getAvg();
-  const todayHigh = weatherDataFunctions(data,celsius, index).getHigh();
-  const todayLow = weatherDataFunctions(data,celsius, index).getLow();
+  const todayAvg = parseInt(weatherDataFunctions(data, celsius, index).getAvg());
+  const todayHigh = parseInt(weatherDataFunctions(data,celsius, index).getHigh());
+  const todayLow = parseInt(weatherDataFunctions(data,celsius, index).getLow());
   const currentVisibility = weatherDataFunctions(data,celsius, index).getVisibility();
   const todayClouds = weatherDataFunctions(data,celsius,index).getCloudCoverage();
   const currentRain = weatherDataFunctions(data,celsius,index).getRainChance();
   const dayOfRain = weatherDataFunctions(data,celsius,index).getRainChance(true);
-  const currentHumidity = weatherDataFunctions(data,celsius,index).getHumidity();
-  const dayOfHumidity = weatherDataFunctions(data,celsius,index).getHumidity(true);
+  const currentHumidity = parseInt(weatherDataFunctions(data,celsius,index).getHumidity());
+  const dayOfHumidity = parseInt(weatherDataFunctions(data,celsius,index).getHumidity(true));
   const currentWind = weatherDataFunctions(data,celsius,index).getWind();
   const currentSevere = weatherDataFunctions(data,celsius,index).getSeverity();
   const dayOfHoursData = weatherDataFunctions(data,celsius,index).getHoursData(indexforhour);

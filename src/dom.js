@@ -15,8 +15,10 @@ import ThunderstormsIcon from './WeatherIcons/thunder.svg'; import RainIcon from
 import RainDayIcon from './WeatherIcons/rainy-2.svg'; import FogIcon from './WeatherIcons/cloudy.svg';
 import CloudyDayIcon from './WeatherIcons/cloudy-day-1.svg'; import CloudyNightIcon from './WeatherIcons/cloudy-night-1.svg';
 import ClearDayIcon from './WeatherIcons/day.svg'; import ClearNightIcon from './WeatherIcons/night.svg';
+
 import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast, queryForData, getCurrentDay } from "./logic";
 import { format,parse } from "date-fns";
+
 let location = null;
 let bodySelect = document.querySelector('body');
 
@@ -171,7 +173,6 @@ function setupDisplayContainers() {
     const measurementContainerWeekDay = document.createElement('div');
     measurementContainerWeekDay.classList.add( 'measurementContainerWeekDay');
 
-
     const daytxt = document.createElement('p');
     daytxt.innerText = day;
     const dayContainer = document.createElement('div');
@@ -184,7 +185,9 @@ function setupDisplayContainers() {
     iconSvg.src = icon;
 
     const rainContainer = document.createElement('div');
-    rainContainer.innerText = rainchance;
+    if (rainchance != 0) {
+      rainContainer.innerText = rainchance;
+    }
     const humidContainer = document.createElement('div');
     humidContainer.innerText = humidity;
     const lowContainer = document.createElement('div');
@@ -201,6 +204,7 @@ function setupDisplayContainers() {
     dayContainer.classList.add(className);
     iconContainer.classList.add(className);
     rainContainer.classList.add(className);
+    rainContainer.id = 'rainContainer';
     humidContainer.classList.add(className);
     lowContainer.classList.add(className);
     avgContainer.classList.add(className);
@@ -240,7 +244,7 @@ export const displayWeatherData = function(data) {
   const tempHighLow = document.querySelector('#tempHighLow');
   const dayDescription = document.querySelector('#dayDescription');
 
-  // clearing containers
+  // clearing all containers upon DOMLoad search
   setupDisplayContainers().resetDisplay(dayOfDetailsContainer);
   setupDisplayContainers().resetDisplay(dayOfForecastContainer);
   setupDisplayContainers().resetDisplay(conditionAndLocation);
@@ -290,7 +294,6 @@ export const displayWeatherData = function(data) {
   conditionHigh.appendChild(conditionHighDiv);
 
   function displayDayOf(measure,stat,unit) {
-
     let addedMetric = null;
     if (unit) {
       addedMetric = setupDisplayContainers().setupDayOfDetailsDisplay(measure,stat,unit);
@@ -300,6 +303,7 @@ export const displayWeatherData = function(data) {
     dayOfDetailsContainer.appendChild(addedMetric);
   }
 
+  // hourlyContainer
   function displayHourly(hour,temp,rainchance,condition) {
     const addedIcon = displayWeatherIcon(condition);
     const addedHourlyMetric = setupDisplayContainers().setupDayOfForecastDisplay(hour,temp,addedIcon,rainchance);
@@ -307,6 +311,7 @@ export const displayWeatherData = function(data) {
     dayOfForecastContainer.appendChild(addedHourlyMetric);
   }
 
+  // weekContainer
   function displayWeekly(day,rainchance,humidity,low,avg,high,condition) {
     const addedIcon = displayWeatherIcon(condition);
     const addedWeeklyMetric = setupDisplayContainers().setupWeekForecastDisplay(day,addedIcon,rainchance,humidity,avg,high,low,condition);
@@ -320,18 +325,20 @@ export const displayWeatherData = function(data) {
   for (let i=0; i<24;i++) {
     let getHourData = allDayOfData(data,celsius,0,i);
     let hourData = getHourData.dayOfHoursData;
+    const roundedPrecip = Math.floor(hourData.precipprob / 10) * 10;
     const parsedTime = parse(hourData.datetime, 'HH:mm:ss', new Date());
 
-    let displayTime = format(parsedTime, 'hh:mm:ss a');
-    displayHourly(displayTime,hourData.temp,hourData.precipprob,hourData.icon);
+    let displayTime = format(parsedTime, 'hh a');
+    displayHourly(displayTime,parseInt(hourData.temp),roundedPrecip,hourData.icon);
   }
   const getOrderedDaysOfWeek = getCurrentDay();
   for (let i=0;i<7;i++) {
     let getDayData = allDayOfData(data,celsius,i);
-    console.log(getDayData);
+    const roundedPrecip = Math.floor(getDayData.dayOfRain / 10) * 10;
+    const roundedHumidity = Math.round(getDayData.dayOfHumidity / 10) * 10;
     let dayOfWeek = getOrderedDaysOfWeek[i];
 
-    displayWeekly(dayOfWeek,getDayData.dayOfRain,getDayData.dayOfHumidity,getDayData.todayLow,getDayData.todayAvg,getDayData.todayHigh,getDayData.forecastCondition);
+    displayWeekly(dayOfWeek,roundedPrecip,roundedHumidity,getDayData.todayLow,getDayData.todayAvg,getDayData.todayHigh,getDayData.forecastCondition);
   }
   const rainTxt = "Rain";
   const percentUnit = "%";
