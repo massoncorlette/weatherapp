@@ -1,4 +1,4 @@
-* {border: 0px solid red;}
+* {border: 1px solid rgba(255, 0, 0, 0.459);}
 
 :root {
   --primary-color: rgb(63, 97, 45);
@@ -69,6 +69,8 @@ body {
   display: flex;
   flex: 1;
   align-items: center;
+  justify-content: center;
+  text-wrap:wrap;
 }
 
 #tempContainer {
@@ -77,22 +79,31 @@ body {
   display: flex;
 }
 
-#tempLow {
+#tempLow, #tempHigh {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
 }
 
 #tempMiddleSection {
   flex: 2;
-}
-
-#tempHigh {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
 }
 
 
 #dayDescription {
   grid-row: 9/11;
   grid-column: span 10;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 #dayOfDetailsContainer {
@@ -100,6 +111,10 @@ body {
   grid-row: 10/11;
   display: flex;
   flex: 1;
+  justify-content: space-evenly;
+  align-items: center;
+  letter-spacing: 1px; 
+  font-style: italic;
 }
 
 #dayOfForecastContainer {

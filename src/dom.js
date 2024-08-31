@@ -31,7 +31,7 @@ export function initializeApp() {
   imgElement.src = cloudSunIcon;
   iconLogo.appendChild(imgElement);
 
-  const defaultLocation = "Colombia";
+  const defaultLocation = "Washington";
   location = defaultLocation;
 
   setupDisplayContainers();
@@ -235,14 +235,13 @@ export const displayWeatherData = function(data) {
   const conditionAndLocation = document.querySelector('#conditionAndLocation');
   const conditionLow = document.querySelector('#tempLow');
   const conditionAvg = document.querySelector('#tempMiddleSection');
-  const conditionHigh = document.querySelector('#tempHigh');
+  const conditionHigh = document.querySelector('#tempHigh'); 
+  const dayDescription = document.querySelector('#dayDescription');
   const dayOfContainer = document.querySelector('#dayOfContainer');
   const dayOfDetailsContainer = document.querySelector('#dayOfDetailsContainer');
   const dayOfForecastContainer = document.querySelector('#dayOfForecastContainer');
   const weekForecastContainer = document.querySelector('#weekForecastContainer');
 
-  const tempHighLow = document.querySelector('#tempHighLow');
-  const dayDescription = document.querySelector('#dayDescription');
 
   // clearing all containers upon DOMLoad search
   setupDisplayContainers().resetDisplay(dayOfDetailsContainer);
@@ -259,6 +258,7 @@ export const displayWeatherData = function(data) {
   let dayOfCondition = getForecastData.dayOfCondition;
   let currentCondition = getForecastData.currentCondition;
   let currentTemp = parseInt(getForecastData.currentTemp);
+  let currentFeel = getForecastData.currentFeel;
   let tempLow = getForecastData.todayLow;
   let tempAvg = getForecastData.todayAvg;
   let tempHigh = getForecastData.todayHigh;
@@ -279,19 +279,24 @@ export const displayWeatherData = function(data) {
   conditionAndLocation.textContent = dayOfCondition + " in " + locationResolved;
 
   const conditionLowDiv = document.createElement('div');
-  conditionLowDiv.textContent = tempLow + " L°";
+  conditionLowDiv.textContent = tempLow + "° L";
   conditionLow.appendChild(conditionLowDiv);
 
   let avgTxt = document.createElement("div");
   let tempTxt = document.createElement("div");
   avgTxt.textContent = "Avg";
-  tempTxt.textContent = tempAvg + " °"
+  tempTxt.textContent = tempAvg + "°"
   conditionAvg.appendChild(avgTxt);
   conditionAvg.appendChild(tempTxt);
   
   const conditionHighDiv = document.createElement('div');
-  conditionHighDiv.textContent = tempHigh + " H°";
+  conditionHighDiv.textContent = tempHigh + "° H";
   conditionHigh.appendChild(conditionHighDiv);
+
+  const dayConditionTxt = document.createElement('div');
+  dayConditionTxt.innerText = 'Currently feels like ' + currentFeel + '°';
+
+  dayDescription.appendChild(dayConditionTxt);
 
   function displayDayOf(measure,stat,unit) {
     let addedMetric = null;
@@ -336,8 +341,6 @@ export const displayWeatherData = function(data) {
       [weekdayTxt, conditionTxt, rainTxt, humidTxt, lowTxt, avgTxt, highTxt].forEach(element => {
         element.classList.add('dayStatHeader');
       });
-
-      []
 
       measurementWeekHeader.append(weekdayTxt, conditionTxt, rainTxt, humidTxt, lowTxt, avgTxt, highTxt);
 
