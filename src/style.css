@@ -1,9 +1,9 @@
-* {border: 1px solid red;}
+* {border: 0px solid red;}
 
 :root {
   --primary-color: rgb(63, 97, 45);
   --main-txt: rgb(228, 228, 228);
-
+  --border-color: rgb(202, 202, 202);
 }
 
 body {
@@ -13,6 +13,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 25%);
   grid-template-rows: repeat(20, 5%);
+  font-family: "Nunito Sans", sans-serif;
 }
 
 #headercontainer {
@@ -137,25 +138,36 @@ body {
 }
 
 #weekForecastContainer {
+  margin: 10%;
+  margin-top: 2%;
   grid-column: span 4;
+  grid-row: span 6;
   display: flex;
   flex: 1;
   flex-direction: column;
 }
 
 .measurementContainerWeekDay {
-  display: flex;
-  flex: 1;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: repeat(14,1fr);
   align-items: center;
 }
 
-.dayContainer {
-  width: 10%;
+#measurementWeekHeader {
+  display: grid;
+  grid-template-columns: repeat(14,1fr);
+  border-bottom: 1px var(--border-color) solid;
 }
 
-#rainContainer {
-  width: 10%;
+.dayStatHeader {
+  width: fit-content;
+  grid-column: span 2;
+  right: 2%;
+}
+
+.dayStat {
+  width: fit-content;
+  grid-column: span 2;
 }
 
 #gifDiv {

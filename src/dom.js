@@ -169,7 +169,6 @@ function setupDisplayContainers() {
   };
 
   function setupWeekForecastDisplay(day, icon, rainchance, humidity, avg, high, low) {
-
     const measurementContainerWeekDay = document.createElement('div');
     measurementContainerWeekDay.classList.add( 'measurementContainerWeekDay');
 
@@ -180,6 +179,7 @@ function setupDisplayContainers() {
     dayContainer.appendChild(daytxt);
 
     const iconContainer = document.createElement('div');
+    iconContainer.id = 'iconContainer';
     const iconSvg = document.createElement('img');
     iconSvg.id = 'iconSvgDay';
     iconSvg.src = icon;
@@ -316,6 +316,35 @@ export const displayWeatherData = function(data) {
     const addedIcon = displayWeatherIcon(condition);
     const addedWeeklyMetric = setupDisplayContainers().setupWeekForecastDisplay(day,addedIcon,rainchance,humidity,avg,high,low,condition);
 
+    if (!weekForecastContainer.hasChildNodes()) {
+      const measurementWeekHeader = document.createElement('div');
+      const weekdayTxt = document.createElement('div');
+      weekdayTxt.innerText = 'Day of Week';
+      const conditionTxt = document.createElement('div');
+      conditionTxt.innerText = 'Condition';
+      const rainTxt = document.createElement('div');
+      rainTxt.innerText = 'Rain Chance';
+      const humidTxt = document.createElement('div');
+      humidTxt.innerText = 'Humidity'
+      const lowTxt = document.createElement('div');
+      lowTxt.innerText = 'Low';
+      const avgTxt = document.createElement('div');
+      avgTxt.innerText = 'Average';
+      const highTxt = document.createElement('div');
+      highTxt.innerText = 'High';
+
+      [weekdayTxt, conditionTxt, rainTxt, humidTxt, lowTxt, avgTxt, highTxt].forEach(element => {
+        element.classList.add('dayStatHeader');
+      });
+
+      []
+
+      measurementWeekHeader.append(weekdayTxt, conditionTxt, rainTxt, humidTxt, lowTxt, avgTxt, highTxt);
+
+      measurementWeekHeader.id = 'measurementWeekHeader';
+      
+      weekForecastContainer.appendChild(measurementWeekHeader);
+    }
     weekForecastContainer.appendChild(addedWeeklyMetric);
   }
   storeDayOfForecast(data);
