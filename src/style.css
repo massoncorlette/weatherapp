@@ -1,16 +1,16 @@
-* {border: 0px solid rgba(255, 0, 0, 0.459);}
+* {border: 0px solid rgba(255, 0, 0, 0.199);}
 
 :root {
-  --primary-color: rgb(63, 97, 45);         /* Dark earthy green */
-  --main-txt: rgb(228, 228, 228);           /* Light gray text color */
-  --border-color: rgb(202, 202, 202);       /* Light gray border color */
-  --complementary-color: rgb(205, 80, 75);  /* Reddish complementary color */
-  --analogous-color-1: rgb(85, 140, 60);    /* Lighter green */
-  --analogous-color-2: rgb(140, 170, 60);   /* Yellow-green */
-  --neutral-color-1: rgb(240, 240, 230);    /* Soft beige */
-  --neutral-color-2: rgb(220, 220, 220);    /* Light gray */
-  --accent-color-1: rgb(200, 160, 70);      /* Muted gold */
-  --accent-color-2: rgb(250, 245, 225);     /* Soft cream */
+  --primary-color: rgb(63, 97, 45);         
+  --main-txt: rgb(228, 228, 228);          
+  --border-color: rgb(202, 202, 202);       
+  --complementary-color: rgb(205, 80, 75); 
+  --analogous-color-1: rgb(85, 140, 60);    
+  --analogous-color-2: rgb(140, 170, 60);   
+  --neutral-color-1: rgb(240, 240, 230);   
+  --neutral-color-2: rgb(220, 220, 220);    
+  --accent-color-1: rgb(200, 160, 70);     
+  --accent-color-2: rgb(250, 245, 225);     
 }
 
 body {
@@ -62,6 +62,7 @@ body {
   display: grid;
   grid-template-columns: repeat(10, 10%);
   grid-template-rows: repeat(10, 10%);
+  background-color: var(--neutral-color-1);
 }
 
 #dayOfContainer {
@@ -176,6 +177,7 @@ body {
   align-items: center;
   letter-spacing: 1px; 
   font-style: italic;
+  background-color: var(--accent-color-1);
 }
 
 #dayOfForecastContainer {
@@ -200,7 +202,10 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  border-left: 1px var(--analogous-color-1) solid;
+  border-right: 1px var(--analogous-color-1) solid;
+
 }
 
 #hourContainer, #precipContainer, #iconContainer, #currentTempContainer {
@@ -295,7 +300,6 @@ body {
 #inputContainer {
   display: flex;
   flex: 1;
-
 }
 
 #locationInput {
@@ -303,6 +307,7 @@ body {
   border-bottom-left-radius: 4px;
   display: flex;
   flex: 1;
+  background-color: var(--neutral-color-1);
 }
 
 
@@ -310,4 +315,5 @@ body {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   display: flex;
+  background-color: var(--accent-color-1);
 }
