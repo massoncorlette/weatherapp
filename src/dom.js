@@ -148,7 +148,7 @@ function setupDisplayContainers() {
 
     precipContainer.id = 'precipContainer';
     if (rainchance) {
-      precipContainer.innerText = rainchance;
+      precipContainer.innerText = rainchance + '%';
     }
     const iconContainer = document.createElement('div');
     iconContainer.id = 'iconContainer';

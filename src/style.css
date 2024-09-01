@@ -2,11 +2,12 @@
 
 :root {
   --primary-color: rgb(63, 97, 45);         
-  --main-txt: rgb(228, 228, 228);          
+  --main-txt: rgb(228, 228, 228);  
+  --neautral-txt: rgb(53, 53, 53);        
   --border-color: rgb(202, 202, 202);       
   --complementary-color: rgb(205, 80, 75); 
-  --analogous-color-1: rgb(85, 140, 60);    
-  --analogous-color-2: rgb(140, 170, 60);   
+  --analogous-color-1: rgba(0, 0, 0, 0.185);    
+  --analogous-color-2: rgb(213, 245, 253);   
   --neutral-color-1: rgb(240, 240, 230);   
   --neutral-color-2: rgb(220, 220, 220);    
   --accent-color-1: rgb(200, 160, 70);     
@@ -34,14 +35,15 @@ body {
   display: flex;
   flex: 1;
   align-items: center;
-  justify-content:center;
+  justify-content:space-around;
   color: var(--main-txt);
 }
 
 #logoContainer {
   display: flex;
-  margin-right: 30%;
+  margin-top: 0.5%;
 }
+
 
 #iconLogo {
   height: 45px;
@@ -52,9 +54,8 @@ body {
 #logotxt {
   display: flex;
   align-items: flex-end;
+  color: var(--analogous-color-2);
 }
-
-
 
 #currentWeatherDiv {
   grid-row: 3/10;
@@ -105,10 +106,7 @@ body {
     grid-row: 6/11;
     margin-top: 2%;
   }
-  
-
 }
-
 
 #conditionAndLocation {
   grid-row: 1/3;
@@ -119,6 +117,7 @@ body {
   justify-content: center;
   text-wrap:wrap;
   border-bottom: 1px var(--border-color) solid;
+  font-weight: 600;
 }
 
 #tempContainer {
@@ -126,6 +125,7 @@ body {
   grid-column:span 10;
   display: flex;
   border-bottom: 1px var(--border-color) solid;
+  color: var(--neautral-txt);
 }
 
 #tempLow, #tempHigh {
@@ -133,7 +133,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 32px;
+  font-size: 40px;
+  font-weight: 600;
 }
 
 #tempLow {
@@ -150,7 +151,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 32px;
+  font-size: 40px;
+  font-weight: 600;
 }
 
 
@@ -162,9 +164,11 @@ body {
   flex: 2;
   justify-content: center;
   align-items: center;
+  font-weight: 700;
 }
 
 #dayDescriptionTxt {
+  font-weight: 500;
   font-size: small;
 }
 
@@ -216,6 +220,9 @@ body {
 
 #precipContainer {
   height: 5%;
+  font-size: small;
+  color: rgb(1, 42, 156);
+  font-weight: 600;
 }
 
 #weekForecastContainer {
@@ -256,12 +263,13 @@ body {
   position: absolute;
   display: flex;
   align-items: center;
-  color: rgba(245, 245, 245, 0.904);
+  color: whitesmoke;
   background-color: rgba(0, 0, 0, 0.541);
   font-family: "Nunito Sans", sans-serif;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 500;
   width: 100%;
-  height: 5%;
+  height: 10%;
 }
 
 #recordGif {
@@ -284,6 +292,7 @@ body {
 #forumcontainer {
   grid-row: 18;
   width: 30%;
+  height: 45%;
   display: flex;
 }
 
@@ -308,12 +317,36 @@ body {
   display: flex;
   flex: 1;
   background-color: var(--neutral-color-1);
+  
 }
 
+input[type="text"] {
+  font-size: 18px;
+  font-family: "Nunito Sans", sans-serif;
+}
+
+input:focus {
+  outline: none; 
+}
 
 #submitbtn {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
   background-color: var(--accent-color-1);
+  height: 100%;
+  color: var(--accent-color-2);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#submitbtn:hover {
+  cursor: pointer;
+}
+
+#logoContainer:hover, #currentWeatherDiv:hover, #dayOfForecastContainer:hover, #weekForecastContainer:hover, #dayOfDetailsContainer:hover {
+  cursor: default;
 }
