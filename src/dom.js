@@ -251,12 +251,14 @@ export const displayWeatherData = function(data) {
   setupDisplayContainers().resetDisplay(conditionAvg);
   setupDisplayContainers().resetDisplay(conditionHigh);
   setupDisplayContainers().resetDisplay(weekForecastContainer);
+  setupDisplayContainers().resetDisplay(dayDescription);
 
   // getting all 'current' weatherData
   let celsius = false;
   let getForecastData = allDayOfData(data, celsius, 0);
   let dayOfCondition = getForecastData.dayOfCondition;
   let currentCondition = getForecastData.currentCondition;
+  let currentDescription = getForecastData.currentDescription;
   let currentTemp = parseInt(getForecastData.currentTemp);
   let currentFeel = getForecastData.currentFeel;
   let tempLow = getForecastData.todayLow;
@@ -294,9 +296,12 @@ export const displayWeatherData = function(data) {
   conditionHigh.appendChild(conditionHighDiv);
 
   const dayConditionTxt = document.createElement('div');
-  dayConditionTxt.innerText = 'Currently feels like ' + currentFeel + '°';
+  const dayDescriptionTxt = document.createElement('div');
+  dayDescriptionTxt.id = 'dayDescriptionTxt';
 
-  dayDescription.appendChild(dayConditionTxt);
+  dayConditionTxt.innerText = 'Currently feels like ' + currentFeel + '°';
+  dayDescriptionTxt.innerText = currentDescription;
+  dayDescription.append(dayConditionTxt,dayDescriptionTxt);
 
   function displayDayOf(measure,stat,unit) {
     let addedMetric = null;

@@ -1,9 +1,16 @@
-* {border: 1px solid rgba(255, 0, 0, 0.459);}
+* {border: 0px solid rgba(255, 0, 0, 0.459);}
 
 :root {
-  --primary-color: rgb(63, 97, 45);
-  --main-txt: rgb(228, 228, 228);
-  --border-color: rgb(202, 202, 202);
+  --primary-color: rgb(63, 97, 45);         /* Dark earthy green */
+  --main-txt: rgb(228, 228, 228);           /* Light gray text color */
+  --border-color: rgb(202, 202, 202);       /* Light gray border color */
+  --complementary-color: rgb(205, 80, 75);  /* Reddish complementary color */
+  --analogous-color-1: rgb(85, 140, 60);    /* Lighter green */
+  --analogous-color-2: rgb(140, 170, 60);   /* Yellow-green */
+  --neutral-color-1: rgb(240, 240, 230);    /* Soft beige */
+  --neutral-color-2: rgb(220, 220, 220);    /* Light gray */
+  --accent-color-1: rgb(200, 160, 70);      /* Muted gold */
+  --accent-color-2: rgb(250, 245, 225);     /* Soft cream */
 }
 
 body {
@@ -47,21 +54,46 @@ body {
   align-items: flex-end;
 }
 
+
+
 #currentWeatherDiv {
   grid-row: 3/10;
   grid-column: span 4;
   display: grid;
   grid-template-columns: repeat(10, 10%);
-  grid-template-rows: repeat(1, 100%);
+  grid-template-rows: repeat(10, 10%);
 }
 
 #dayOfContainer {
   grid-column: 1/4;
-  grid-row: span 1;
+  grid-row: span 10;
   display: grid;
   grid-template-columns: repeat(10,10%);
   grid-template-rows: repeat(10,10%);
 }
+
+#gifDiv {
+  position: relative;
+  grid-column: 4/11;
+  grid-row: span 10;
+}
+
+@media (max-width:1300px) {
+  
+  #dayOfContainer {
+    grid-column: span 10;
+    grid-row: 1/5;
+    display: grid;
+    grid-template-columns: repeat(10,10%);
+    grid-template-rows: repeat(10,10%);
+  }
+  #gifDiv {
+    position: relative;
+    grid-column: span 10;
+    grid-row: 6/11;
+  }
+}
+
 
 #conditionAndLocation {
   grid-row: 1/3;
@@ -80,7 +112,7 @@ body {
 }
 
 #tempLow, #tempHigh {
-  flex: 1;
+  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,9 +133,14 @@ body {
   grid-row: 9/11;
   grid-column: span 10;
   display: flex;
-  flex: 1;
+  flex-direction: column;
+  flex: 2;
   justify-content: center;
   align-items: center;
+}
+
+#dayDescriptionTxt {
+  font-size: small;
 }
 
 #dayOfDetailsContainer {
@@ -185,11 +222,6 @@ body {
   grid-column: span 2;
 }
 
-#gifDiv {
-  position: relative;
-  grid-column: 4/11;
-  grid-row: span 1;
-}
 
 #recordDiv {
   position: absolute;

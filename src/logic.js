@@ -47,6 +47,7 @@ export function getCurrentDay() {
 export function allDayOfData(data, celsius, index, indexforhour) {
   const currentTemp = parseInt(data.currentConditions.temp); 
   const dayOfCondition = data.currentConditions.conditions;
+  const currentDescription = data.description;
   const currentFeel = parseInt(data.currentConditions.feelslike);
   const currentCondition = data.currentConditions.icon;
   const forecastCondition = weatherDataFunctions(data,celsius, index).getCurrentCondition(true);
@@ -69,6 +70,7 @@ export function allDayOfData(data, celsius, index, indexforhour) {
     forecastCondition,
     dayOfCondition,
     currentCondition,
+    currentDescription,
     todayAvg,
     todayHigh,
     todayLow,
