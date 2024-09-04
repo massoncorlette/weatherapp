@@ -11,6 +11,9 @@ and is licensed under Creative Commons Attribution 4.0 International Public Lice
 
 https://creativecommons.org/licenses/by/4.0/
 
+Toggle Switch Template
+https://stackoverflow.com/questions/39846282/how-to-add-the-text-on-and-off-to-toggle-button
+
 
 // logic
 

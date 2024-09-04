@@ -31,12 +31,11 @@ body {
   font-family: "Nunito Sans", sans-serif;
   font-weight: 800;
   font-style: italic;
-  font-size: 24px;
+  font-size: 32px;
   display: flex;
   flex: 1;
   align-items: center;
   justify-content:space-around;
-  color: var(--main-txt);
 }
 
 #logoContainer {
@@ -54,7 +53,12 @@ body {
 #logotxt {
   display: flex;
   align-items: flex-end;
-  color: var(--analogous-color-2);
+  color: var(--accent-color-2);
+}
+
+#celFar {
+  display: flex;
+  align-items: center;
 }
 
 #currentWeatherDiv {
@@ -350,3 +354,81 @@ input:focus {
 #logoContainer:hover, #currentWeatherDiv:hover, #dayOfForecastContainer:hover, #weekForecastContainer:hover, #dayOfDetailsContainer:hover {
   cursor: default;
 }
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--neutral-color-2);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--analogous-color-1);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(55px);
+  -ms-transform: translateX(55px);
+  transform: translateX(55px);
+}
+
+.on
+{
+  display: none;
+  right: 60%;
+}
+
+.off {
+  left: 75%;
+}
+
+.on, .off
+{
+  color: var(--neautral-txt);
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  font-size: 28px;
+  font-family: Verdana, sans-serif;
+}
+
+input:checked+ .slider .on
+{display: block;}
+
+input:checked + .slider .off
+{display: none;}
+
+/*--------- END --------*/
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;}
+

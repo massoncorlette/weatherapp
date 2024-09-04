@@ -107,10 +107,7 @@ function setupDisplayContainers() {
     gifDiv.appendChild(recordDiv);
     weatherDiv.appendChild(gifDiv);
    
-    bodySelect.appendChild(weatherDiv);
-    bodySelect.appendChild(dayOfDetailsContainer);
-    bodySelect.appendChild(dayOfForecastContainer);
-    bodySelect.appendChild(weekForecastContainer);  
+    bodySelect.append(weatherDiv,dayOfDetailsContainer,dayOfForecastContainer,weekForecastContainer);
   }
  
   function resetDisplay(parentElement) {
@@ -210,13 +207,7 @@ function setupDisplayContainers() {
     avgContainer.classList.add(className);
     highContainer.classList.add(className);
 
-    measurementContainerWeekDay.appendChild(dayContainer);
-    measurementContainerWeekDay.appendChild(iconContainer);
-    measurementContainerWeekDay.appendChild(rainContainer);
-    measurementContainerWeekDay.appendChild(humidContainer);
-    measurementContainerWeekDay.appendChild(lowContainer);
-    measurementContainerWeekDay.appendChild(avgContainer);
-    measurementContainerWeekDay.appendChild(highContainer);
+    measurementContainerWeekDay.append(dayContainer,iconContainer,rainContainer,humidContainer,lowContainer,avgContainer,highContainer);
 
     return measurementContainerWeekDay;
   };
