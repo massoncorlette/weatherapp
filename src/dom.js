@@ -19,6 +19,7 @@ import ClearDayIcon from './WeatherIcons/day.svg'; import ClearNightIcon from '.
 import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast, queryForData, getCurrentDay } from "./logic";
 import { format,parse } from "date-fns";
 
+let loaded = false;
 let location = null;
 let celsius = true;
 let toggleRowColors = null;
@@ -27,11 +28,9 @@ let metricToggleSelect =  document.querySelector('#togBtn');
 
 metricToggleSelect.addEventListener('change', () => {
   if (metricToggleSelect.checked) {
-    toggleRowColors = null;
     celsius = false;
     initializeApp(location);
   } else {
-    toggleRowColors = null;
     celsius = true;
     initializeApp(location);
   }
@@ -65,7 +64,7 @@ export function initializeApp(selectLocation) {
   }); 
 }
 
-let loaded = false;
+
 
 //DOM functions to setup Containers
 function setupDisplayContainers() {
@@ -181,7 +180,7 @@ function setupDisplayContainers() {
     iconContainer.appendChild(iconSvg);
     const currentTempContainer = document.createElement('div');
     currentTempContainer.id = 'currentTempContainer';
-    currentTempContainer.innerText = temp;
+    currentTempContainer.innerText = temp + '°';
 
     measurementContainerHour.appendChild(hourContainer);
     measurementContainerHour.appendChild(precipContainer);
@@ -395,12 +394,12 @@ export const displayWeatherData = function(data) {
     displayHourly(displayTime,parseInt(hourData.temp),roundedPrecip,hourData.icon);
   }
   const getOrderedDaysOfWeek = getCurrentDay();
+  toggleRowColors = null;
   for (let i=0;i<7;i++) {
     let getDayData = allDayOfData(data,celsius,i);
     const roundedPrecip = Math.floor(getDayData.dayOfRain / 10) * 10;
     const roundedHumidity = Math.round(getDayData.dayOfHumidity / 10) * 10;
     let dayOfWeek = getOrderedDaysOfWeek[i];
-
     displayWeekly(dayOfWeek,roundedPrecip,roundedHumidity,getDayData.todayLow,getDayData.todayAvg,getDayData.todayHigh,getDayData.forecastCondition);
   }
   const rainTxt = "Rain";

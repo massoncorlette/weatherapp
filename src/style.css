@@ -44,7 +44,6 @@ body {
   margin-top: 0.5%;
 }
 
-
 #iconLogo {
   height: 45px;
   width: 45px;
@@ -110,6 +109,10 @@ body {
     grid-column: span 10;
     grid-row: 6/11;
     margin-top: 2%;
+  }
+  #headercontainer {
+    gap: 20%;
+    justify-content:flex-start;
   }
 }
 
@@ -269,6 +272,10 @@ body {
 .dayStat {
   width: fit-content;
   grid-column: span 2;
+}
+
+.dayContainer {
+  margin-left: 3%;
 }
 
 
