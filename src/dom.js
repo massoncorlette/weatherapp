@@ -354,6 +354,7 @@ export const displayWeatherData = function(data) {
     if (!weekForecastContainer.hasChildNodes()) {
       const measurementWeekHeader = document.createElement('div');
       const weekdayTxt = document.createElement('div');
+      weekdayTxt.id = 'weekdayTxt';      
       weekdayTxt.innerText = 'Day of Week';
       const conditionTxt = document.createElement('div');
       conditionTxt.innerText = 'Condition';
