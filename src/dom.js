@@ -21,14 +21,17 @@ import { format,parse } from "date-fns";
 
 let location = null;
 let celsius = true;
+let toggleRowColors = null;
 let bodySelect = document.querySelector('body');
 let metricToggleSelect =  document.querySelector('#togBtn');
 
 metricToggleSelect.addEventListener('change', () => {
   if (metricToggleSelect.checked) {
+    toggleRowColors = null;
     celsius = false;
     initializeApp(location);
   } else {
+    toggleRowColors = null;
     celsius = true;
     initializeApp(location);
   }
@@ -63,6 +66,7 @@ export function initializeApp(selectLocation) {
 }
 
 let loaded = false;
+
 //DOM functions to setup Containers
 function setupDisplayContainers() {
   if (!loaded) {
@@ -189,7 +193,14 @@ function setupDisplayContainers() {
 
   function setupWeekForecastDisplay(day, icon, rainchance, humidity, avg, high, low) {
     const measurementContainerWeekDay = document.createElement('div');
-    measurementContainerWeekDay.classList.add( 'measurementContainerWeekDay');
+
+    if (toggleRowColors) {
+      measurementContainerWeekDay.classList.add( 'measurementContainerWeekDay');
+      toggleRowColors = false;
+    } else {
+      measurementContainerWeekDay.classList.add( 'measurementContainerWeekDayAlt');
+      toggleRowColors = true;
+    }
 
     const daytxt = document.createElement('p');
     daytxt.innerText = day;
@@ -205,16 +216,16 @@ function setupDisplayContainers() {
 
     const rainContainer = document.createElement('div');
     if (rainchance != 0) {
-      rainContainer.innerText = rainchance;
+      rainContainer.innerText = rainchance + ' %';
     }
     const humidContainer = document.createElement('div');
-    humidContainer.innerText = humidity;
+    humidContainer.innerText = humidity + ' %';
     const lowContainer = document.createElement('div');
-    lowContainer.innerText = low;
+    lowContainer.innerText = low + '°';
     const avgContainer = document.createElement('div');
-    avgContainer.innerText = avg;
+    avgContainer.innerText = avg + '°';
     const highContainer = document.createElement('div');
-    highContainer.innerText = high;
+    highContainer.innerText = high + '°';
 
     iconContainer.appendChild(iconSvg);
 
@@ -273,6 +284,9 @@ export const displayWeatherData = function(data) {
   let currentDescription = getForecastData.currentDescription;
   let currentTemp = parseInt(getForecastData.currentTemp);
   let currentFeel = getForecastData.currentFeel;
+  if (celsius === true) {
+    currentFeel = parseInt((currentFeel - 30) / 2);
+  }
   let tempLow = getForecastData.todayLow;
   let tempAvg = getForecastData.todayAvg;
   let tempHigh = getForecastData.todayHigh;

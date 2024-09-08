@@ -22,6 +22,7 @@ body {
   grid-template-columns: repeat(4, 25%);
   grid-template-rows: repeat(20, 5%);
   font-family: "Nunito Sans", sans-serif;
+  background-color: var(--accent-color-2);
 }
 
 #headercontainer {
@@ -240,6 +241,14 @@ body {
 }
 
 .measurementContainerWeekDay {
+  background-color: var(--neutral-color-2);
+  display: grid;
+  grid-template-columns: repeat(14,1fr);
+  align-items: center;
+}
+
+.measurementContainerWeekDayAlt {
+  background-color: var(--neutral-color-1);
   display: grid;
   grid-template-columns: repeat(14,1fr);
   align-items: center;

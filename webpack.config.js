@@ -37,7 +37,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
-      inject: 'body'
+      inject: 'body',
+      favicon: './src/images/weatherFavicon.png'
     }),
   ],
   devServer: {
