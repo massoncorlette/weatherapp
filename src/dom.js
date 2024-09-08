@@ -20,12 +20,12 @@ import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast
 import { format,parse } from "date-fns";
 
 let location = null;
-let celsius = false;
+let celsius = true;
 let bodySelect = document.querySelector('body');
 let metricToggleSelect =  document.querySelector('#togBtn');
 
 metricToggleSelect.addEventListener('change', () => {
-  if (metricToggleSelect.check) {
+  if (metricToggleSelect.checked) {
     celsius = false;
     initializeApp(location);
   } else {
@@ -39,18 +39,19 @@ metricToggleSelect.addEventListener('change', () => {
 export function initializeApp(selectLocation) {
   let submitBtn = document.querySelector('#submitbtn');
 
-  const iconLogo = document.getElementById('iconLogo');
-  const imgElement = document.createElement('img');
-  imgElement.src = cloudSunIcon;
-  iconLogo.appendChild(imgElement);
-
-  const defaultLocation = "Washington";
-  location = defaultLocation;
-
-  setupDisplayContainers();
-  queryForData(defaultLocation);
-
-  if (selectLocation) {
+  if (!selectLocation) {
+    const iconLogo = document.getElementById('iconLogo');
+    const imgElement = document.createElement('img');
+    imgElement.src = cloudSunIcon;
+    iconLogo.appendChild(imgElement);
+  
+    const defaultLocation = "Washington";
+    location = defaultLocation;  
+    setupDisplayContainers();
+    queryForData(defaultLocation);
+  
+  } else {
+    setupDisplayContainers();
     queryForData(selectLocation);
   }
 
@@ -151,6 +152,10 @@ function setupDisplayContainers() {
   };
 
   function setupDayOfForecastDisplay(hour,temp,icon,rainchance) {
+
+    if (celsius === true) {
+      temp = parseInt((temp - 30) / 2);
+    }
 
     const measurementContainerHour = document.createElement('div');
     measurementContainerHour.classList.add('measurementContainerHour');
