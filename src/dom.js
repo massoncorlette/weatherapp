@@ -20,10 +20,23 @@ import { allDayOfData as allDayOfData, storeSevenDayForecast, storeDayOfForecast
 import { format,parse } from "date-fns";
 
 let location = null;
+let celsius = false;
 let bodySelect = document.querySelector('body');
+let metricToggleSelect =  document.querySelector('#togBtn');
+
+metricToggleSelect.addEventListener('change', () => {
+  if (metricToggleSelect.check) {
+    celsius = false;
+    initializeApp(location);
+  } else {
+    celsius = true;
+    initializeApp(location);
+  }
+})
+
 
 // entry function from index
-export function initializeApp() {
+export function initializeApp(selectLocation) {
   let submitBtn = document.querySelector('#submitbtn');
 
   const iconLogo = document.getElementById('iconLogo');
@@ -36,6 +49,10 @@ export function initializeApp() {
 
   setupDisplayContainers();
   queryForData(defaultLocation);
+
+  if (selectLocation) {
+    queryForData(selectLocation);
+  }
 
   submitBtn.addEventListener('click', (event) => {
     location = document.querySelector('#locationInput').value;
@@ -245,7 +262,6 @@ export const displayWeatherData = function(data) {
   setupDisplayContainers().resetDisplay(dayDescription);
 
   // getting all 'current' weatherData
-  let celsius = false;
   let getForecastData = allDayOfData(data, celsius, 0);
   let dayOfCondition = getForecastData.dayOfCondition;
   let currentCondition = getForecastData.currentCondition;

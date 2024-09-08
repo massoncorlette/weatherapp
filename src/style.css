@@ -422,9 +422,7 @@ input:checked+ .slider .on
 input:checked + .slider .off
 {display: none;}
 
-/*--------- END --------*/
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
